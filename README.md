@@ -1,5 +1,7 @@
 # Recipes app
 
+rapp95326@gmail.com
+
 ## 1.1	Purpose 
 The main purpose of this app is to allow users to manage their favorite recipes. Users obtain recipes by searching and filtering a set of already existing recipes. Those recipes can be added to individual, thematically structured collections. The app also allows users to write their recipes either based on already existing recipes or from scratch. Users should also have the possibility to add pictures to recipes and share them with other users. The app should furthermore give different users the possibility to write comments for the recipes of others and to give them a rating. By doing this the app combines traditional recipe collecting with social media elements.
 MoSCoW Method
