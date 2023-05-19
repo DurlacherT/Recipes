@@ -1,13 +1,19 @@
 package com.example.recipes.screens.detailrecipes
 
+import android.net.Uri
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.example.recipes.EDIT_RECIPE_SCREEN
 import com.example.recipes.OVERVIEW_SCREEN
 import com.example.recipes.RECIPE_DEFAULT_ID
 import com.example.recipes.SETTINGS_SCREEN
 import com.example.recipes.RECIPE_ID
 import com.example.recipes.common.ext.idFromParameter
+import com.example.recipes.domain.model.Response
+import com.example.recipes.domain.repository.ProfileImageRepository
 import com.example.recipes.model.Recipe
 import com.example.recipes.model.service.ConfigurationService
 import com.example.recipes.model.service.LogService
@@ -15,6 +21,7 @@ import com.example.recipes.model.service.StorageService
 import com.example.recipes.screens.RecipesViewModel
 import com.example.recipes.screens.myrecipes.RecipeActionOption
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +29,9 @@ class DetailViewModel @Inject constructor(
   savedStateHandle: SavedStateHandle,
   logService: LogService,
   private val storageService: StorageService,
-  private val configurationService: ConfigurationService
+  private val configurationService: ConfigurationService,
+  private val repo: ProfileImageRepository
+
 ) : RecipesViewModel(logService) {
 
 
@@ -87,7 +96,27 @@ class DetailViewModel @Inject constructor(
     private const val RECIPE_ID_SAVED_STATE_KEY = "recipeId"
   }
 
+  var addImageToStorageResponse by mutableStateOf<Response<Uri>>(Response.Success(null))
+    private set
+  var addImageToDatabaseResponse by mutableStateOf<Response<Boolean>>(Response.Success(null))
+    private set
+  var getImageFromDatabaseResponse by mutableStateOf<Response<String>>(Response.Success(null))
+    private set
 
+  fun addImageToStorage(imageUri: Uri) = viewModelScope.launch {
+    addImageToStorageResponse = Response.Loading
+    addImageToStorageResponse = repo.addImageToFirebaseStorage(imageUri)
+  }
+
+  fun addImageToDatabase(downloadUrl: Uri) = viewModelScope.launch {
+    addImageToDatabaseResponse = Response.Loading
+    addImageToDatabaseResponse = repo.addImageUrlToFirestore(downloadUrl)
+  }
+
+  fun getImageFromDatabase() = viewModelScope.launch {
+    getImageFromDatabaseResponse = Response.Loading
+    getImageFromDatabaseResponse = repo.getImageUrlFromFirestore()
+  }
 
 }
 
