@@ -8,6 +8,10 @@ interface StorageService {
 
   suspend fun getRecipe(recipeId: String): Recipe?
 
+
+
+  suspend fun getRecipeNEW(recipeId: String): Recipe?
+
   suspend fun save(recipe: Recipe): String
   suspend fun update(recipe: Recipe)
   suspend fun delete(recipeId: String)

@@ -1,6 +1,7 @@
 package com.example.recipes.screens.allrecipes
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.recipes.DETAIL_SCREEN
 import com.example.recipes.EDIT_RECIPE_SCREEN
 import com.example.recipes.OVERVIEW_SCREEN
 import com.example.recipes.SETTINGS_SCREEN
@@ -25,7 +26,7 @@ class OverviewViewModel @Inject constructor(
   val recipes = storageService.recipe
 
   fun loadTaskOptions() {
-    val hasEditOption = configurationService.isShowRecipeEditButtonConfig
+    val hasEditOption = true //configurationService.isShowRecipeEditButtonConfig
     options.value = RecipeActionOption.getOptions(hasEditOption)
   }
 
@@ -40,7 +41,7 @@ class OverviewViewModel @Inject constructor(
   fun onSettingsClick(openScreen: (String) -> Unit) = openScreen(SETTINGS_SCREEN)
 
 
-  fun onOverviewClick(openScreen: (String) -> Unit) = openScreen(OVERVIEW_SCREEN)
+  fun onRecipeClick(openScreen: (String) -> Unit, recipe: Recipe) = openScreen("$DETAIL_SCREEN?$RECIPE_ID={${recipe.id}}")
 
 
   fun onTaskActionClick(openScreen: (String) -> Unit, task: Recipe, action: String) {

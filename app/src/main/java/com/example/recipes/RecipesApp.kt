@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,6 +24,7 @@ import androidx.navigation.navArgument
 import com.example.recipes.common.composable.PermissionDialog
 import com.example.recipes.common.composable.RationaleDialog
 import com.example.recipes.common.snackbar.SnackbarManager
+import com.example.recipes.screens.allrecipes.DetailScreen
 import com.example.recipes.screens.edit_recipe.EditRecipeScreen
 import com.example.recipes.screens.login.LoginScreen
 import com.example.recipes.screens.allrecipes.OverviewScreen
@@ -126,8 +128,21 @@ fun NavGraphBuilder.recipesGraph(appState: RecipesAppState) {
 
   composable(RECIPES_SCREEN) { RecipeScreen(openScreen = { route -> appState.navigate(route) }) }
 
+  composable(
+    route = "$DETAIL_SCREEN$RECIPE_ID_ARG",
+    arguments = listOf(navArgument(RECIPE_ID)  {type = NavType.StringType })
+  ) {
+    DetailScreen(
+      recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID
+    )
+  }
 
-  composable(OVERVIEW_SCREEN) { OverviewScreen(openScreen = { route -> appState.navigate(route) }) }
+
+  composable(OVERVIEW_SCREEN) {
+    OverviewScreen(
+      openScreen = { route -> appState.navigate(route) }
+    )
+  }
 
 
   composable(

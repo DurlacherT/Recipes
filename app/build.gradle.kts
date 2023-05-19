@@ -96,6 +96,8 @@ dependencies {
     androidTestImplementation("com.google.truth:truth:1.1.3")
     kaptAndroidTest("com.google.dagger:hilt-compiler:2.44")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation ("com.google.firebase:firebase-storage-ktx")
+
 }
 
 kapt {

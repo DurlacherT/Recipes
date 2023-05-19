@@ -31,6 +31,9 @@ constructor(private val firestore: FirebaseFirestore, private val auth: AccountS
   override suspend fun getRecipe(recipeId: String): Recipe? =
     currentCollection(auth.currentUserId).document(recipeId).get().await().toObject()
 
+  override suspend fun getRecipeNEW(recipeId: String): Recipe? =
+    completeCollection().document(recipeId).get().await().toObject()
+
   override suspend fun save(task: Recipe): String =
     trace(SAVE_TASK_TRACE) { currentCollection(auth.currentUserId).add(task).await().id }
 
@@ -66,7 +69,7 @@ constructor(private val firestore: FirebaseFirestore, private val auth: AccountS
     private const val TASK_COLLECTION = "tasks"
     private const val SAVE_TASK_TRACE = "saveTask"
     private const val UPDATE_TASK_TRACE = "updateTask"
-    private const val RECIPE_COLLECTION = "recipes-f048c"
+    private const val RECIPE_COLLECTION = "recipe-app-6b055"
 
   }
 }

@@ -7,7 +7,7 @@ const val SIGN_UP_SCREEN = "SignUpScreen"
 const val RECIPES_SCREEN = "TasksScreen"
 const val EDIT_RECIPE_SCREEN = "EditRecipeScreen"
 const val OVERVIEW_SCREEN = "OverviewScreen"
-
+const val DETAIL_SCREEN = "DetailScreen"
 
 
 const val RECIPE_ID = "recipeId"
