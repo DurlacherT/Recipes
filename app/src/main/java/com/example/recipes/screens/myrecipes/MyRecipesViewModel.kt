@@ -3,6 +3,7 @@ package com.example.recipes.screens.myrecipes
 import androidx.compose.runtime.mutableStateOf
 import com.example.recipes.EDIT_RECIPE_SCREEN
 import com.example.recipes.OVERVIEW_SCREEN
+import com.example.recipes.RECIPES_SCREEN
 import com.example.recipes.SETTINGS_SCREEN
 import com.example.recipes.RECIPE_ID
 import com.example.recipes.model.Recipe
@@ -39,6 +40,7 @@ class MyRecipesViewModel @Inject constructor(
 
   fun onOverviewClick(openScreen: (String) -> Unit) = openScreen(OVERVIEW_SCREEN)
 
+  fun onMyRecipesClick(openScreen: (String) -> Unit) = openScreen(RECIPES_SCREEN)
 
   fun onTaskActionClick(openScreen: (String) -> Unit, task: Recipe, action: String) {
 
