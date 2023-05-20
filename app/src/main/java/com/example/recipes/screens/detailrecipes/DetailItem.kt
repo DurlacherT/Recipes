@@ -1,4 +1,4 @@
-package com.example.recipes.screens.allrecipes
+package com.example.recipes.screens.detailrecipes
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*

@@ -1,4 +1,4 @@
-package com.example.recipes.presentation.components
+package com.example.recipes.model.storage.presentation.components
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.GetContent
@@ -16,11 +16,11 @@ import kotlinx.coroutines.launch
 import com.example.recipes.core.Constants.ALL_IMAGES
 import com.example.recipes.core.Constants.DISPLAY_IT_MESSAGE
 import com.example.recipes.core.Constants.IMAGE_SUCCESSFULLY_ADDED_MESSAGE
-import com.example.recipes.presentation.ProfileViewModel
+import com.example.recipes.screens.detailrecipes.DetailViewModel
 
 @Composable
 fun ProfileImageScreen(
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: DetailViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
@@ -29,7 +29,7 @@ fun ProfileImageScreen(
             viewModel.addImageToStorage(imageUri)
         }
     }
-
+/*
     Scaffold(
         content = { padding ->
             Box(
@@ -67,5 +67,5 @@ fun ProfileImageScreen(
                 showSnackBar()
             }
         }
-    )
+    )*/
 }

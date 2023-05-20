@@ -11,7 +11,6 @@ import com.example.recipes.OVERVIEW_SCREEN
 import com.example.recipes.RECIPE_DEFAULT_ID
 import com.example.recipes.SETTINGS_SCREEN
 import com.example.recipes.RECIPE_ID
-import com.example.recipes.common.ext.idFromParameter
 import com.example.recipes.domain.model.Response
 import com.example.recipes.domain.repository.ProfileImageRepository
 import com.example.recipes.model.Recipe
@@ -41,7 +40,7 @@ class DetailViewModel @Inject constructor(
   fun initialize(recipeId: String) {
     launchCatching {
       if (recipeId != RECIPE_DEFAULT_ID) {
-        recipe.value = storageService.getRecipeNEW(recipeId.idFromParameter()) ?: Recipe()
+        recipe.value = storageService.getRecipeNEW(recipeId) ?: Recipe()
       }
     }
   }
@@ -108,9 +107,9 @@ class DetailViewModel @Inject constructor(
     addImageToStorageResponse = repo.addImageToFirebaseStorage(imageUri)
   }
 
-  fun addImageToDatabase(downloadUrl: Uri) = viewModelScope.launch {
+  fun addImageToDatabase(downloadUrl: Uri, recipeId: String) = viewModelScope.launch {
     addImageToDatabaseResponse = Response.Loading
-    addImageToDatabaseResponse = repo.addImageUrlToFirestore(downloadUrl)
+    addImageToDatabaseResponse = repo.addImageUrlToFirestore(downloadUrl, recipeId)
   }
 
   fun getImageFromDatabase() = viewModelScope.launch {

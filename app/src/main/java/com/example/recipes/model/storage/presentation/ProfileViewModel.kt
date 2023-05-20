@@ -30,9 +30,9 @@ class ProfileViewModel @Inject constructor(
         addImageToStorageResponse = repo.addImageToFirebaseStorage(imageUri)
     }
 
-    fun addImageToDatabase(downloadUrl: Uri) = viewModelScope.launch {
+    fun addImageToDatabase(downloadUrl: Uri,recipeId: String) = viewModelScope.launch {
         addImageToDatabaseResponse = Loading
-        addImageToDatabaseResponse = repo.addImageUrlToFirestore(downloadUrl)
+        addImageToDatabaseResponse = repo.addImageUrlToFirestore(downloadUrl, recipeId)
     }
 
     fun getImageFromDatabase() = viewModelScope.launch {

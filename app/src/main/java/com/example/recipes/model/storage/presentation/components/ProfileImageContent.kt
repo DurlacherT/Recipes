@@ -1,4 +1,4 @@
-package com.example.recipes.presentation.components
+package com.example.recipes.model.storage.presentation.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape

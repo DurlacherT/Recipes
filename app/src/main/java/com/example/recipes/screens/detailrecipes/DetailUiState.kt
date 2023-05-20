@@ -1,3 +1,3 @@
-package com.example.recipes.screens.settings
+package com.example.recipes.screens.detailrecipes
 
 data class DetailSettingsUiState(val isAnonymousAccount: Boolean = true)

@@ -24,7 +24,7 @@ import androidx.navigation.navArgument
 import com.example.recipes.common.composable.PermissionDialog
 import com.example.recipes.common.composable.RationaleDialog
 import com.example.recipes.common.snackbar.SnackbarManager
-import com.example.recipes.screens.allrecipes.DetailScreen
+import com.example.recipes.screens.detailrecipes.DetailScreen
 import com.example.recipes.screens.edit_recipe.EditRecipeScreen
 import com.example.recipes.screens.login.LoginScreen
 import com.example.recipes.screens.allrecipes.OverviewScreen

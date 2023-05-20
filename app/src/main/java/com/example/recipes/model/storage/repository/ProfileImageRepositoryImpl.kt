@@ -35,9 +35,9 @@ class ProfileImageRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addImageUrlToFirestore(downloadUrl: Uri): AddImageUrlToFirestoreResponse {
+    override suspend fun addImageUrlToFirestore(downloadUrl: Uri, recipeId: String): AddImageUrlToFirestoreResponse {
         return try {
-            db.collection(IMAGES).document(UID).set(mapOf(
+            db.collection("recipe-app-6b055").document(recipeId).update(mapOf(
                 URL to downloadUrl,
                 CREATED_AT to FieldValue.serverTimestamp()
             )).await()

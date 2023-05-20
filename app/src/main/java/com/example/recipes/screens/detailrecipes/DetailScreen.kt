@@ -1,26 +1,22 @@
-package com.example.recipes.screens.allrecipes
+package com.example.recipes.screens.detailrecipes
 
 import android.annotation.SuppressLint
-import android.media.Image
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.Image
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.recipes.common.composable.*
 import com.example.recipes.core.Constants
-import com.example.recipes.presentation.components.AddImageToDatabase
-import com.example.recipes.presentation.components.AddImageToStorage
-import com.example.recipes.presentation.components.ProfileContent
-import com.example.recipes.screens.detailrecipes.DetailViewModel
+import com.example.recipes.model.storage.presentation.components.AddImageToDatabase
+import com.example.recipes.model.storage.presentation.components.AddImageToStorage
+import com.example.recipes.model.storage.presentation.components.ProfileContent
 import kotlinx.coroutines.launch
+import com.example.recipes.common.ext.idFromParameter
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -32,6 +28,8 @@ fun DetailScreen(
   viewModel: DetailViewModel = hiltViewModel()
 ) {
   val recipe by viewModel.recipe
+
+  val recipeId = recipeId.idFromParameter()
 
   LaunchedEffect(Unit) { viewModel.initialize(recipeId) }
 
@@ -52,26 +50,22 @@ fun DetailScreen(
         Text(text = recipe.Description, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
         Text(text = recipe.url, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
         AsyncImage(
-          model  = "https://firebasestorage.googleapis.com/v0/b/recipe-app-6b055.appspot.com/o/images%2FA23Hr7F2.jpg?alt=media&token=63fbff0d-fd2c-4a00-9133-3c6dd5c5cfb5",
+          model  = recipe.url,
           contentDescription = "description"
         )
-      }
-      Box(
-        modifier = Modifier.fillMaxSize().padding(padding)
-      ) {
-        ProfileContent(
-          openGallery = {
-            galleryLauncher.launch(Constants.ALL_IMAGES)
-          }
-        )
+
       }
     },
     scaffoldState = scaffoldState
   )
-
+  ProfileContent(
+    openGallery = {
+      galleryLauncher.launch(Constants.ALL_IMAGES)
+    }
+  )
   AddImageToStorage(
     addImageToDatabase = { downloadUrl ->
-      viewModel.addImageToDatabase(downloadUrl)
+      viewModel.addImageToDatabase(downloadUrl, recipeId )
     }
   )
 

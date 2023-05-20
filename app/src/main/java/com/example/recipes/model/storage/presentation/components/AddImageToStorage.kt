@@ -1,4 +1,4 @@
-package com.example.recipes.presentation.components
+package com.example.recipes.model.storage.presentation.components
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
@@ -7,11 +7,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.recipes.components.ProgressBar
 import com.example.recipes.core.Utils.Companion.print
 import com.example.recipes.domain.model.Response.*
-import com.example.recipes.presentation.ProfileViewModel
+import com.example.recipes.screens.detailrecipes.DetailViewModel
 
 @Composable
 fun AddImageToStorage(
-    viewModel: ProfileViewModel = hiltViewModel(),
+    viewModel: DetailViewModel = hiltViewModel(),
     addImageToDatabase: (downloadUrl: Uri) -> Unit
 ) {
     when(val addImageToStorageResponse = viewModel.addImageToStorageResponse) {

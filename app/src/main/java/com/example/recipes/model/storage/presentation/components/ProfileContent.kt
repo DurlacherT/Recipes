@@ -1,4 +1,4 @@
-package com.example.recipes.presentation.components
+package com.example.recipes.model.storage.presentation.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +24,7 @@ fun ProfileContent(
             onClick = openGallery
         ) {
             Text(
-                text = OPEN_GALLERY,
+                text = "Add picture",
                 fontSize = 18.sp
             )
         }

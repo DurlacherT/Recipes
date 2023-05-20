@@ -10,7 +10,7 @@ typealias GetImageUrlFromFirestoreResponse = Response<String>
 interface ProfileImageRepository {
     suspend fun addImageToFirebaseStorage(imageUri: Uri): AddImageToStorageResponse
 
-    suspend fun addImageUrlToFirestore(downloadUrl: Uri): AddImageUrlToFirestoreResponse
+    suspend fun addImageUrlToFirestore(downloadUrl: Uri, recipeId: String): AddImageUrlToFirestoreResponse
 
     suspend fun getImageUrlFromFirestore(): GetImageUrlFromFirestoreResponse
 }
