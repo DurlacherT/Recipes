@@ -37,10 +37,10 @@ class MyRecipesViewModel @Inject constructor(
 
   fun onSettingsClick(openScreen: (String) -> Unit) = openScreen(SETTINGS_SCREEN)
 
-
   fun onOverviewClick(openScreen: (String) -> Unit) = openScreen(OVERVIEW_SCREEN)
 
   fun onMyRecipesClick(openScreen: (String) -> Unit) = openScreen(RECIPES_SCREEN)
+
 
   fun onTaskActionClick(openScreen: (String) -> Unit, task: Recipe, action: String) {
 

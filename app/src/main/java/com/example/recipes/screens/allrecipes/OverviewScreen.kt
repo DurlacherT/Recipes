@@ -14,6 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.recipes.EDIT_RECIPE_SCREEN
+import com.example.recipes.OVERVIEW_SCREEN
+import com.example.recipes.SETTINGS_SCREEN
 import com.example.recipes.R.drawable as AppIcon
 import com.example.recipes.R.string as AppText
 import com.example.recipes.common.composable.*
@@ -31,15 +34,14 @@ fun OverviewScreen(
   viewModel: OverviewViewModel = hiltViewModel(),
 ) {
   Scaffold(
-    floatingActionButton = {
-      FloatingActionButton(
-        onClick = { viewModel.onAddClick(openScreen) },
-        backgroundColor = MaterialTheme.colors.primary,
-        contentColor = MaterialTheme.colors.onPrimary,
-        modifier = modifier.padding(16.dp)
-      ) {
-        Icon(Icons.Filled.Add, "Add")
-      }
+
+            bottomBar = {
+      BottomBar(modifier,
+              onMyRecipesClick = { viewModel.onMyRecipesClick(openScreen) },
+              onAddClick = { viewModel.onAddClick(openScreen) },
+              onSettingsClick = { viewModel.onSettingsClick(openScreen) },
+              onOverviewClick = { viewModel.onOverviewClick(openScreen)}
+      )
     }
   ) {
     val recipes = viewModel.recipes.collectAsStateWithLifecycle(emptyList())

@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.recipes.R.drawable as AppIcon
 import com.example.recipes.R.string as AppText
 import com.example.recipes.common.composable.ActionToolbar
+import com.example.recipes.common.composable.BottomBar
 import com.example.recipes.common.ext.smallSpacer
 import com.example.recipes.common.ext.toolbarActions
 
@@ -48,46 +49,12 @@ fun RecipeScreen(
     isFloatingActionButtonDocked = true,*/
 
     bottomBar = {
-      Row(
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier
-          .background(Color.White)
-          .fillMaxWidth()
-          .height(60.dp)
-      ) {
-        TextButton (
-          onClick = { viewModel.onMyRecipesClick(openScreen) },
-          modifier = modifier.padding(8.dp),
-          border = null,
-          colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
-        ) {
-          Icon(Icons.Filled.Home, "Add")
-        }
-        TextButton (
-          onClick = { viewModel.onAddClick(openScreen) },
-          modifier = modifier.padding(8.dp),
-          border = null,
-          colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
-        ) {
-          Icon(Icons.Filled.Add, "Add")
-        }
-        TextButton (
-          onClick = { viewModel.onOverviewClick(openScreen) },
-          modifier = modifier.padding(8.dp),
-          border = null,
-          colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
-        ) {
-          Icon(Icons.Filled.ManageSearch, "Add", tint = Color.Black)
-        }
-        TextButton (
-          onClick = { viewModel.onSettingsClick(openScreen) },
-          modifier = modifier.padding(8.dp),
-          border = null,
-          colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
-        ) {
-          Icon(Icons.Filled.Settings, "Add", tint = Color.Black)
-        }
-      }
+      BottomBar(modifier,
+        onMyRecipesClick = { viewModel.onMyRecipesClick(openScreen) },
+        onAddClick = { viewModel.onAddClick(openScreen) },
+        onSettingsClick = { viewModel.onSettingsClick(openScreen) },
+        onOverviewClick = { viewModel.onOverviewClick(openScreen)}
+      )
     }
   ) {
     val tasks = viewModel.tasks.collectAsStateWithLifecycle(emptyList())
