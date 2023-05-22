@@ -36,9 +36,9 @@ fun DetailItem(
       )*/
 
       Column(modifier = Modifier.weight(1f)) {
-        Text(text = recipe.Name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
+        Text(text = recipe.name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
         //Text(text = recipe.Ingredients, style = MaterialTheme.typography.subtitle2)
-        Text(text = recipe.Description, style = MaterialTheme.typography.body1)
+        Text(text = recipe.description, style = MaterialTheme.typography.body1)
         //Text(text = recipe.url, style = MaterialTheme.typography.subtitle2)
       }
 

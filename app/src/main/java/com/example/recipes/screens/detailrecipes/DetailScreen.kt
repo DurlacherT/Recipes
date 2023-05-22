@@ -60,8 +60,8 @@ fun DetailScreen(
 
 
         Text(text = recipeId, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
-        Text(text = recipe.Name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
-        Text(text = recipe.Description, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
+        Text(text = recipe.name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
+        Text(text = recipe.description, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
         Text(text = recipe.url, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
         AsyncImage(
           model  = recipe.url,
