@@ -9,6 +9,7 @@ interface StorageService {
   suspend fun getRecipe(recipeId: String): Recipe?
 
 
+  suspend fun updateUserCollection(recipe: Recipe)
 
   suspend fun getRecipeNEW(recipeId: String): Recipe?
 

@@ -65,7 +65,8 @@ fun OverviewScreen(
             options = options,
             onCheckChange = { viewModel.onTaskCheckChange(recipe) },
             onActionClick = {},
-            onRecipeClick = { viewModel.onRecipeClick(openScreen, recipe) }
+            onRecipeClick = { viewModel.onRecipeClick(openScreen, recipe) },
+            onFlagTaskClick = { viewModel.onFlagTaskClick(recipe) }
           )
 
         }

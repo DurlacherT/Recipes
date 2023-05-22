@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +22,7 @@ import com.example.recipes.common.ext.spacer
 import com.example.recipes.common.ext.toolbarActions
 import com.example.recipes.model.Priority
 import com.example.recipes.model.Recipe
+import com.example.recipes.theme.DarkBlue
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -49,14 +53,17 @@ fun EditRecipeScreen(
     Spacer(modifier = Modifier.spacer())
 
     val fieldModifier = Modifier.fieldModifier()
-    BasicField(AppText.title, recipe.recipe, viewModel::onTitleChange, fieldModifier)
+    BasicField(AppText.name, recipe.recipe, viewModel::onTitleChange, fieldModifier)
     BasicField(AppText.description, recipe.Description, viewModel::onDescriptionChange, fieldModifier)
-    BasicField(AppText.url, recipe.url, viewModel::onUrlChange, fieldModifier)
+    BasicField(AppText.ingredients, recipe.url, viewModel::onUrlChange, fieldModifier)
 
     Spacer(modifier = Modifier.spacer())
     //CardEditors(task, viewModel::onDateChange, viewModel::onTimeChange)
-    CardSelectors(recipe, viewModel::onPriorityChange, viewModel::onFlagToggle)
-
+    Icon(
+      Icons.Outlined.Favorite,
+      tint = DarkBlue,
+      contentDescription = "Favorite"
+    )
     Spacer(modifier = Modifier.spacer())
   }
 }
@@ -64,15 +71,15 @@ fun EditRecipeScreen(
 @ExperimentalMaterialApi
 @Composable
 private fun CardEditors(
-    task: Recipe,
-    onDateChange: (Long) -> Unit,
-    onTimeChange: (Int, Int) -> Unit
+  task: Recipe,
+  onDateChange: (Long) -> Unit,
+  onTimeChange: (Int, Int) -> Unit
 ) {
   val activity = LocalContext.current as AppCompatActivity
 
   //RegularCardEditor(AppText.date, AppIcon.ic_calendar, task.Ingredients, Modifier.card()) {
   //  showDatePicker(activity, onDateChange)
- // }
+  // }
 
   RegularCardEditor(AppText.time, AppIcon.ic_clock, task.dueTime, Modifier.card()) {
     showTimePicker(activity, onTimeChange)
@@ -82,13 +89,13 @@ private fun CardEditors(
 @Composable
 @ExperimentalMaterialApi
 private fun CardSelectors(
-    task: Recipe,
-    onPriorityChange: (String) -> Unit,
-    onFlagToggle: (String) -> Unit
+  task: Recipe,
+  onPriorityChange: (String) -> Unit,
+  onFlagToggle: (String) -> Unit
 ) {
   val prioritySelection = Priority.getByName(task.author).name
   CardSelector(AppText.priority, Priority.getOptions(), prioritySelection, Modifier.card()) {
-    newValue ->
+      newValue ->
     onPriorityChange(newValue)
   }
 

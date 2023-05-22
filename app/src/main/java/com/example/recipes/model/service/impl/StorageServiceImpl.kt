@@ -35,27 +35,33 @@ constructor(private val firestore: FirebaseFirestore, private val auth: AccountS
     completeCollection().document(recipeId).get().await().toObject()
 
   override suspend fun save(task: Recipe): String =
-    trace(SAVE_TASK_TRACE) { currentCollection(auth.currentUserId).add(task).await().id }
+    trace(SAVE_TASK_TRACE) {completeCollection().add(task).await().id }
+
 
   override suspend fun update(task: Recipe): Unit =
     trace(UPDATE_TASK_TRACE) {
-      currentCollection(auth.currentUserId).document(task.id).set(task).await()
+      completeCollection().document(task.id).set(task).await()
     }
 
   override suspend fun delete(recipeId: String) {
     currentCollection(auth.currentUserId).document(recipeId).delete().await()
   }
 
+  override suspend fun updateUserCollection(task: Recipe): Unit =
+    trace(UPDATE_TASK_TRACE) {
+      currentCollection(auth.currentUserId).document(task.id).set(task).await()
+    }
 
 
   private fun currentCollection(uid: String): CollectionReference =
-    firestore.collection(USER_COLLECTION).document(uid).collection(TASK_COLLECTION)
+    firestore.collection(USER_COLLECTION).document(uid).collection(USER_RECIPE_COLLECTION)
 
 
   @OptIn(ExperimentalCoroutinesApi::class)
   override val recipe: Flow<List<Recipe>>
     get() =
-        completeCollection().snapshots().map { snapshot -> snapshot.toObjects() }
+      auth.currentUser.flatMapLatest { user ->
+      completeCollection().snapshots().map { snapshot -> snapshot.toObjects() }}
 
 
   private fun completeCollection(): CollectionReference =
@@ -66,7 +72,7 @@ constructor(private val firestore: FirebaseFirestore, private val auth: AccountS
 
   companion object {
     private const val USER_COLLECTION = "users"
-    private const val TASK_COLLECTION = "tasks"
+    private const val USER_RECIPE_COLLECTION = "recipes"
     private const val SAVE_TASK_TRACE = "saveTask"
     private const val UPDATE_TASK_TRACE = "updateTask"
     private const val RECIPE_COLLECTION = "recipe-app-6b055"

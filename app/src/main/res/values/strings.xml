@@ -24,6 +24,7 @@
 
     <!-- RecipesScreen -->
     <string name="recipes">Recipes</string>
+    <string name="myrecipes">My Recipes</string>
 
     <!-- EditRecipeScreen -->
     <string name="edit_recipe">Edit your recipe</string>
@@ -34,6 +35,11 @@
     <string name="time">Time</string>
     <string name="flag">Flag</string>
     <string name="priority">Priority</string>
+    <string name="author">Author</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="method">Method</string>
+    <string name="name">Name</string>
+
 
     <!-- SettingsScreen -->
     <string name="settings">Settings</string>

@@ -27,11 +27,7 @@ fun ActionToolbar(
     title = { Text(stringResource(title)) },
     backgroundColor = toolbarColor(),
     actions = {
-      Box(modifier) {
-        IconButton(onClick = endAction) {
-          Icon(painter = painterResource(endActionIcon), contentDescription = "Action")
-        }
-      }
+
     }
   )
 }

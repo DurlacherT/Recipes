@@ -12,6 +12,7 @@ import com.example.recipes.model.service.ConfigurationService
 import com.example.recipes.model.service.LogService
 import com.example.recipes.model.service.StorageService
 import com.example.recipes.screens.RecipesViewModel
+import com.example.recipes.screens.edit_recipe.EditFlagOption
 import com.example.recipes.screens.myrecipes.RecipeActionOption
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -59,12 +60,22 @@ class OverviewViewModel @Inject constructor(
 
 
 
-  private fun onFlagTaskClick(task: Recipe) {
-    launchCatching { storageService.update(task.copy(flag = !task.flag)) }
+
+  fun onFlagTaskClick(task: Recipe) {
+    launchCatching {
+      task.flag = !task.flag
+      storageService.updateUserCollection(task.copy())
+    }
   }
+
 
   private fun onDeleteTaskClick(task: Recipe) {
     launchCatching { storageService.delete(task.id) }
+  }
+
+  fun onFavoriteClick(recipe: Recipe) {
+    recipe.flag = !recipe.flag
+    launchCatching { storageService.update(recipe)}
   }
 }
 

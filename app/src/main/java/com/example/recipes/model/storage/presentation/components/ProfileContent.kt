@@ -18,13 +18,13 @@ fun ProfileContent(
 ) {
     Box(
         modifier = Modifier.fillMaxSize().padding(bottom = 64.dp),
-        contentAlignment = Alignment.BottomCenter
+        contentAlignment = Alignment.BottomStart
     ) {
         Button(
             onClick = openGallery
         ) {
             Text(
-                text = "Add picture",
+                text = "Add",
                 fontSize = 18.sp
             )
         }

@@ -63,13 +63,12 @@ fun RecipeScreen(
     Column(modifier = Modifier
       .fillMaxWidth()
       .fillMaxHeight()) {
-      Text(text = "Recipes")
-     /* ActionToolbar(
-        title = AppText.recipes,
+      ActionToolbar(
+        title = AppText.myrecipes,
         modifier = Modifier.toolbarActions(),
         endActionIcon = AppIcon.ic_settings,
         endAction = { viewModel.onSettingsClick(openScreen) }
-      )*/
+      )
 
       Spacer(modifier = Modifier.smallSpacer())
 

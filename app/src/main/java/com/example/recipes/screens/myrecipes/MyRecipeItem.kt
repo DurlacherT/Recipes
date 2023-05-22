@@ -5,12 +5,14 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.recipes.R.drawable as AppIcon
@@ -37,28 +39,35 @@ fun TaskItem(
       verticalAlignment = Alignment.CenterVertically,
       modifier = Modifier.fillMaxWidth(),
     ) {
-      Checkbox(
-        checked = recipe.completed,
-        onCheckedChange = { onCheckChange() },
-        modifier = Modifier.padding(8.dp, 0.dp)
-      )
+
 
       Column(modifier = Modifier.weight(1f)) {
-        Text(text = recipe.recipe, style = MaterialTheme.typography.subtitle2)
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-          Text(text = getDueDateAndTime(recipe), fontSize = 12.sp)
-        }
+        Text(text = recipe.id, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
+
+        Text(text = recipe.Name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
+        //Text(text = recipe.Ingredients, style = MaterialTheme.typography.subtitle2)
+        Text(text = recipe.Description, style = MaterialTheme.typography.body1)
+        //Text(text = recipe.url, style = MaterialTheme.typography.subtitle2)
+
+
+
       }
 
       if (recipe.flag) {
         Icon(
             Icons.Filled.Favorite,
           tint = DarkBlue,
-          contentDescription = "Flag"
+          contentDescription = "Favorite"
+        )
+      } else {
+        Icon(
+          Icons.Outlined.Favorite,
+          tint = DarkBlue,
+          contentDescription = "Favorite"
         )
       }
 
-      DropdownContextMenu(options, Modifier.contextMenu(), onActionClick)
+      //DropdownContextMenu(options, Modifier.contextMenu(), onActionClick)
     }
   }
 }

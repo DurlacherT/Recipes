@@ -11,7 +11,7 @@ data class Recipe(
   val method: List<String> = listOf(),
   val Name: String = "",
   val url: String = "",
-  val flag: Boolean = false,
+  var flag: Boolean = false,
   val completed: Boolean = false,
 
   val title: String = "",

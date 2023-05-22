@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.recipes.R
 import com.example.recipes.common.composable.*
 import com.example.recipes.core.Constants
 import com.example.recipes.model.storage.presentation.components.AddImageToDatabase
@@ -17,6 +18,8 @@ import com.example.recipes.model.storage.presentation.components.AddImageToStora
 import com.example.recipes.model.storage.presentation.components.ProfileContent
 import kotlinx.coroutines.launch
 import com.example.recipes.common.ext.idFromParameter
+import com.example.recipes.common.ext.smallSpacer
+import com.example.recipes.common.ext.toolbarActions
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -45,6 +48,17 @@ fun DetailScreen(
   Scaffold(
     content = { padding ->
       Column() {
+
+        ActionToolbar(
+          title = R.string.recipes,
+          modifier = Modifier.toolbarActions(),
+          endActionIcon = R.drawable.ic_settings,
+          endAction = {  }
+        )
+
+        Spacer(modifier = Modifier.smallSpacer())
+
+
         Text(text = recipeId, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
         Text(text = recipe.Name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
         Text(text = recipe.Description, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
