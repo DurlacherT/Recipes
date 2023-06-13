@@ -3,6 +3,7 @@ package com.example.recipes.screens.splash
 import androidx.compose.runtime.mutableStateOf
 import com.example.recipes.SPLASH_SCREEN
 import com.example.recipes.RECIPES_SCREEN
+import com.example.recipes.WELCOME_SCREEN
 import com.example.recipes.model.service.AccountService
 import com.example.recipes.model.service.ConfigurationService
 import com.example.recipes.model.service.LogService
@@ -26,7 +27,7 @@ class SplashViewModel @Inject constructor(
   fun onAppStart(openAndPopUp: (String, String) -> Unit) {
 
     showError.value = false
-    if (accountService.hasUser) openAndPopUp(RECIPES_SCREEN, SPLASH_SCREEN)
+    if (accountService.hasUser) openAndPopUp(WELCOME_SCREEN, SPLASH_SCREEN)
     else createAnonymousAccount(openAndPopUp)
   }
 

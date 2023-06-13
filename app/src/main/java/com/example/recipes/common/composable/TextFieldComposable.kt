@@ -1,6 +1,7 @@
 package com.example.recipes.common.composable
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.example.recipes.R.drawable as AppIcon
 import com.example.recipes.R.string as AppText
 
@@ -24,10 +26,10 @@ fun BasicField(
   modifier: Modifier = Modifier
 ) {
   OutlinedTextField(
-    singleLine = true,
-    modifier = modifier,
+    singleLine = false,
+    modifier = modifier.defaultMinSize(minHeight = 100.dp),
     value = value,
-    onValueChange = { onNewValue(it) },
+  onValueChange = { onNewValue(it) },
     placeholder = { Text(stringResource(text)) }
   )
 }

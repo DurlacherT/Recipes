@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -32,6 +34,7 @@ import com.example.recipes.screens.settings.SettingsScreen
 import com.example.recipes.screens.sign_up.SignUpScreen
 import com.example.recipes.screens.splash.SplashScreen
 import com.example.recipes.screens.myrecipes.RecipeScreen
+import com.example.recipes.screens.welcomescreen.WelcomeScreen
 import com.example.recipes.theme.RecipesTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -144,6 +147,11 @@ fun NavGraphBuilder.recipesGraph(appState: RecipesAppState) {
     )
   }
 
+  composable(WELCOME_SCREEN) {
+    WelcomeScreen(
+      openScreen = { route -> appState.navigate(route) }
+    )
+  }
 
   composable(
     route = "$EDIT_RECIPE_SCREEN$RECIPE_ID_ARG",

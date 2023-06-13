@@ -8,6 +8,7 @@ const val RECIPES_SCREEN = "TasksScreen"
 const val EDIT_RECIPE_SCREEN = "EditRecipeScreen"
 const val OVERVIEW_SCREEN = "OverviewScreen"
 const val DETAIL_SCREEN = "DetailScreen"
+const val WELCOME_SCREEN = "WelcomeScreen"
 
 
 const val RECIPE_ID = "recipeId"
