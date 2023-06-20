@@ -3,6 +3,7 @@ package com.example.recipes.screens.allrecipes
 import androidx.compose.runtime.mutableStateOf
 import com.example.recipes.DETAIL_SCREEN
 import com.example.recipes.EDIT_RECIPE_SCREEN
+import com.example.recipes.OVERVIEWSEARCH_SCREEN
 import com.example.recipes.OVERVIEW_SCREEN
 import com.example.recipes.RECIPES_SCREEN
 import com.example.recipes.SETTINGS_SCREEN
@@ -44,6 +45,8 @@ class OverviewViewModel @Inject constructor(
   fun onAddClick(openScreen: (String) -> Unit) = openScreen(EDIT_RECIPE_SCREEN)
 
   fun onSettingsClick(openScreen: (String) -> Unit) = openScreen(SETTINGS_SCREEN)
+
+  fun onOverviewSearchClick(openScreen: (String) -> Unit) = openScreen(OVERVIEWSEARCH_SCREEN)
 
   fun onOverviewClick(openScreen: (String) -> Unit) = openScreen(OVERVIEW_SCREEN)
 

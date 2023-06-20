@@ -1,7 +1,12 @@
 package com.example.recipes.screens.edit_recipe
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.recipes.EDIT_RECIPE_SCREEN
+import com.example.recipes.OVERVIEWSEARCH_SCREEN
+import com.example.recipes.OVERVIEW_SCREEN
+import com.example.recipes.RECIPES_SCREEN
 import com.example.recipes.RECIPE_DEFAULT_ID
+import com.example.recipes.SETTINGS_SCREEN
 import com.example.recipes.common.ext.idFromParameter
 import com.example.recipes.model.Recipe
 import com.example.recipes.model.service.LogService
@@ -36,6 +41,17 @@ class EditRecipeViewModel @Inject constructor(
   fun onUrlChange(newValue: String) {
     recipe.value = recipe.value.copy(url = newValue)
   }
+
+  fun onAddClick(openScreen: (String) -> Unit) = openScreen(EDIT_RECIPE_SCREEN)
+
+  fun onSettingsClick(openScreen: (String) -> Unit) = openScreen(SETTINGS_SCREEN)
+
+  fun onOverviewSearchClick(openScreen: (String) -> Unit) = openScreen(OVERVIEWSEARCH_SCREEN)
+
+  fun onOverviewClick(openScreen: (String) -> Unit) = openScreen(OVERVIEW_SCREEN)
+
+  fun onMyRecipesClick(openScreen: (String) -> Unit) = openScreen(RECIPES_SCREEN)
+
 
   /*fun onDateChange(newValue: Long) {
     val calendar = Calendar.getInstance(TimeZone.getTimeZone(UTC))

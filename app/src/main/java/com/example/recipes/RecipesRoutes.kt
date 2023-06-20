@@ -9,7 +9,7 @@ const val EDIT_RECIPE_SCREEN = "EditRecipeScreen"
 const val OVERVIEW_SCREEN = "OverviewScreen"
 const val DETAIL_SCREEN = "DetailScreen"
 const val WELCOME_SCREEN = "WelcomeScreen"
-
+const val OVERVIEWSEARCH_SCREEN = "OverviewSearchScreen"
 
 const val RECIPE_ID = "recipeId"
 const val RECIPE_DEFAULT_ID = "-1"

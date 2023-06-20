@@ -1,11 +1,13 @@
 package com.example.recipes.screens.edit_recipe
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.*
@@ -27,9 +29,11 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 @ExperimentalMaterialApi
 fun EditRecipeScreen(
+  openScreen: (String) -> Unit,
   popUpScreen: () -> Unit,
   recipeId: String,
   modifier: Modifier = Modifier,
@@ -38,33 +42,64 @@ fun EditRecipeScreen(
   val recipe by viewModel.recipe
 
   LaunchedEffect(Unit) { viewModel.initialize(recipeId) }
+  Scaffold(
+    /* floatingActionButton = {
+      FloatingActionButton(
+        onClick = { viewModel.onAddClick(openScreen) },
+        backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.onPrimary,
+        modifier = modifier.padding(16.dp)
 
-  Column(
-    modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(rememberScrollState()),
-    horizontalAlignment = Alignment.CenterHorizontally
-  ) {
-    ActionToolbar(
-      title = AppText.edit_recipe,
-      modifier = Modifier.toolbarActions(),
-      endActionIcon = AppIcon.ic_check,
-      endAction = { viewModel.onDoneClick(popUpScreen) }
-    )
+        ) {
+        Icon(Icons.Filled.Add, "Add")
+      }
+    },
+    floatingActionButtonPosition = FabPosition.Center,
+    isFloatingActionButtonDocked = true,*/
 
-    Spacer(modifier = Modifier.spacer())
+    bottomBar = {
+      BottomBar(modifier,
+        onMyRecipesClick = { viewModel.onMyRecipesClick(openScreen) },
+        onAddClick = { viewModel.onAddClick(openScreen) },
+        onSettingsClick = { viewModel.onSettingsClick(openScreen) },
+        onSearchClick = { viewModel.onOverviewSearchClick(openScreen) },
 
-    val fieldModifier = Modifier.fieldModifier()
-    BasicField(AppText.name, recipe.recipe, viewModel::onTitleChange, fieldModifier)
-    BasicField(AppText.description, recipe.description, viewModel::onDescriptionChange, fieldModifier)
-    BasicField(AppText.ingredients, recipe.url, viewModel::onUrlChange, fieldModifier)
+        onOverviewClick = { viewModel.onOverviewClick(openScreen)}
+      )
+    })
+  {
+    Column(
+      modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(rememberScrollState()),
+      horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+      ActionToolbar(
+        title = AppText.edit_recipe,
+        modifier = Modifier.toolbarActions(),
+        endActionIcon = AppIcon.ic_check,
+        endAction = { viewModel.onDoneClick(popUpScreen) }
+      )
 
-    Spacer(modifier = Modifier.spacer())
-    //CardEditors(task, viewModel::onDateChange, viewModel::onTimeChange)
-    Icon(
-      Icons.Outlined.Favorite,
-      tint = DarkBlue,
-      contentDescription = "Favorite"
-    )
-    Spacer(modifier = Modifier.spacer())
+      Spacer(modifier = Modifier.spacer())
+
+      val fieldModifier = Modifier.fieldModifier()
+      BasicField(AppText.name, recipe.recipe, viewModel::onTitleChange, fieldModifier)
+      BasicField(
+        AppText.description,
+        recipe.description,
+        viewModel::onDescriptionChange,
+        fieldModifier
+      )
+      BasicField(AppText.ingredients, recipe.url, viewModel::onUrlChange, fieldModifier)
+
+      Spacer(modifier = Modifier.spacer())
+      //CardEditors(task, viewModel::onDateChange, viewModel::onTimeChange)
+      Icon(
+        Icons.Outlined.Favorite,
+        tint = DarkBlue,
+        contentDescription = "Favorite"
+      )
+      Spacer(modifier = Modifier.spacer())
+    }
   }
 }
 

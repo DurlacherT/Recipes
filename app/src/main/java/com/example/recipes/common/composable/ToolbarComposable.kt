@@ -10,10 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun BasicToolbar(@StringRes title: Int) {
-  TopAppBar(title = { Text(stringResource(title)) }, backgroundColor = toolbarColor())
+  TopAppBar(title = { Text(stringResource(title)) }, backgroundColor = Color.White)
 }
 
 @Composable
@@ -27,7 +29,11 @@ fun ActionToolbar(
     title = { Text(stringResource(title)) },
     backgroundColor = toolbarColor(),
     actions = {
-
+      Box(modifier) {
+        IconButton(onClick = endAction) {
+          Icon(painter = painterResource(endActionIcon), contentDescription = "Action")
+        }
+      }
     }
   )
 }

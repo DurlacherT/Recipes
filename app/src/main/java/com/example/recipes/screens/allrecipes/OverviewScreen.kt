@@ -50,7 +50,8 @@ fun OverviewScreen(
       BottomBar(modifier,
               onMyRecipesClick = { viewModel.onMyRecipesClick(openScreen) },
               onAddClick = { viewModel.onAddClick(openScreen) },
-              onSettingsClick = { viewModel.onSettingsClick(openScreen) },
+        onSearchClick = { viewModel.onOverviewSearchClick(openScreen) },
+        onSettingsClick = { viewModel.onSettingsClick(openScreen) },
               onOverviewClick = { viewModel.onOverviewClick(openScreen)}
       )
     }
@@ -110,54 +111,3 @@ fun OverviewScreen(
 }
 
 
-@Composable
-fun SearchView(state: MutableState<TextFieldValue>) {                  //Composable um Suchfeld darzustellen
-  TextField(
-    value = state.value,
-    onValueChange = { value ->
-      state.value = value
-    },
-    modifier = Modifier
-      .fillMaxWidth(),
-    textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
-    leadingIcon = {
-      Icon(
-        Icons.Default.Search,
-        contentDescription = "",
-        modifier = Modifier
-          .padding(15.dp)
-          .size(24.dp)
-      )
-    },
-    trailingIcon = {
-      if (state.value != TextFieldValue("")) {
-        IconButton(
-          onClick = {
-            state.value =
-              TextFieldValue("") // Remove text from TextField when you press the 'X' icon
-          }
-        ) {
-          Icon(
-            Icons.Default.Close,
-            contentDescription = "",
-            modifier = Modifier
-              .padding(15.dp)
-              .size(24.dp)
-          )
-        }
-      }
-    },
-    singleLine = true,
-    shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
-    colors = TextFieldDefaults.textFieldColors(
-      textColor = Color.White,
-      cursorColor = Color.White,
-      leadingIconColor = Color.White,
-      trailingIconColor = Color.White,
-      backgroundColor = colorResource(id = R.color.bright_orange),
-      focusedIndicatorColor = Color.Transparent,
-      unfocusedIndicatorColor = Color.Transparent,
-      disabledIndicatorColor = Color.Transparent
-    )
-  )
-}

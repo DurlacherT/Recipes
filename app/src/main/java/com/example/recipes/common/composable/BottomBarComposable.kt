@@ -12,8 +12,10 @@ import androidx.compose.material.Icon
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DensityMedium
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ManageSearch
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,6 +30,7 @@ import com.example.recipes.screens.myrecipes.MyRecipesViewModel
 fun BottomBar(
 modifier: Modifier,
 onAddClick : () -> Unit,
+onSearchClick : () -> Unit,
 onSettingsClick : () -> Unit,
 onOverviewClick : () -> Unit,
 onMyRecipesClick : () -> Unit
@@ -56,6 +59,14 @@ onMyRecipesClick : () -> Unit
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
         ) {
             Icon(Icons.Filled.Add, "Add")
+        }
+        TextButton (
+            onClick = { onSearchClick() },
+            modifier = modifier.padding(8.dp),
+            border = null,
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
+        ) {
+            Icon(Icons.Filled.DensityMedium, "Add")
         }
         TextButton (
             onClick = { onOverviewClick() },

@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -30,6 +28,7 @@ import com.example.recipes.screens.detailrecipes.DetailScreen
 import com.example.recipes.screens.edit_recipe.EditRecipeScreen
 import com.example.recipes.screens.login.LoginScreen
 import com.example.recipes.screens.allrecipes.OverviewScreen
+import com.example.recipes.screens.allrecipes.OverviewScreenSearch
 import com.example.recipes.screens.settings.SettingsScreen
 import com.example.recipes.screens.sign_up.SignUpScreen
 import com.example.recipes.screens.splash.SplashScreen
@@ -147,18 +146,27 @@ fun NavGraphBuilder.recipesGraph(appState: RecipesAppState) {
     )
   }
 
-  composable(WELCOME_SCREEN) {
-    WelcomeScreen(
+  composable(OVERVIEWSEARCH_SCREEN) {
+    OverviewScreenSearch(
       openScreen = { route -> appState.navigate(route) }
     )
   }
+
+  composable(WELCOME_SCREEN) {
+    WelcomeScreen(
+      openScreen = { route -> appState.navigate(route) }
+
+    )
+  }
+
 
   composable(
     route = "$EDIT_RECIPE_SCREEN$RECIPE_ID_ARG",
     arguments = listOf(navArgument(RECIPE_ID) { defaultValue = RECIPE_DEFAULT_ID })
   ) {
     EditRecipeScreen(
-      popUpScreen = { appState.popUp() },
+      openScreen = { route -> appState.navigate(route) },
+              popUpScreen = { appState.popUp() },
       recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID
     )
   }
