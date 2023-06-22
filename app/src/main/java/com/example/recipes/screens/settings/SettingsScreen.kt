@@ -1,5 +1,6 @@
 package com.example.recipes.screens.settings
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -7,7 +8,9 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.recipes.R.drawable as AppIcon
 import com.example.recipes.R.string as AppText
@@ -45,6 +48,63 @@ fun SettingsScreen(
       SignOutCard { viewModel.onSignOutClick(restartApp) }
       DeleteMyAccountCard { viewModel.onDeleteMyAccountClick(restartApp) }
     }
+    val contextForToast = LocalContext.current.applicationContext
+
+    var checkedvege by remember {
+      mutableStateOf(true)
+    }
+    var checkedvega by remember {
+      mutableStateOf(true)
+    }
+    var checkedall by remember {
+      mutableStateOf(true)
+    }
+
+    Column(
+
+    ) {
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start) {
+      Checkbox(
+        checked = checkedvege,
+        onCheckedChange = { checked_ ->
+          checkedvege = checked_
+          Toast.makeText(contextForToast, "checked_ = $checked_", Toast.LENGTH_SHORT).show()
+        }
+      )
+
+      Text(
+        modifier = Modifier.padding(start = 2.dp),
+        text = "Vegetarian"
+      )
+    }
+    Row(verticalAlignment = Alignment.CenterVertically,  horizontalArrangement = Arrangement.Start) {
+      Checkbox(
+        checked = checkedvega,
+        onCheckedChange = { checked_ ->
+          checkedvega = checked_
+          Toast.makeText(contextForToast, "checked_ = $checked_", Toast.LENGTH_SHORT).show()
+        }
+      )
+
+      Text(
+        modifier = Modifier.padding(start = 2.dp),
+        text = "Vegan"
+      )}
+
+      Row(verticalAlignment = Alignment.CenterVertically,  horizontalArrangement = Arrangement.Start) {
+        Checkbox(
+          checked = checkedall,
+          onCheckedChange = { checked_ ->
+            checkedall = checked_
+            Toast.makeText(contextForToast, "checked_ = $checked_", Toast.LENGTH_SHORT).show()
+          }
+        )
+
+        Text(
+          modifier = Modifier.padding(start = 2.dp),
+          text = "Food Allergies"
+        )
+      }}
   }
 }
 
@@ -102,3 +162,5 @@ private fun DeleteMyAccountCard(deleteMyAccount: () -> Unit) {
     )
   }
 }
+
+

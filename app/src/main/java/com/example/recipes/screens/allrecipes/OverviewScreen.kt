@@ -42,7 +42,6 @@ fun OverviewScreen(
   modifier: Modifier = Modifier,
   viewModel: OverviewViewModel = hiltViewModel()
 ) {
-  val textState = remember { mutableStateOf(TextFieldValue("")) }
 
   Scaffold(
 
@@ -71,26 +70,10 @@ fun OverviewScreen(
 
       Spacer(modifier = Modifier.smallSpacer())
 
-      SearchView(textState)  //Aufruf des Suchfeldes
 
       LazyColumn {
 
-        val searchedText = textState.value.text              //Rudimentäre Filterfunktion erzeuge Fehler, wenn man mehrere Buchstaben eingibt
-        filteredRecipes = if (searchedText.isEmpty()) {
-          recipes.value
-        } else {
-          val resultList = mutableListOf<Recipe>()
-          for (recipe in recipes.value) {
-            if (recipe.name.lowercase()
-                .contains(searchedText.lowercase())
-            ) {
-              resultList.add(recipe)
-            }
-          }
-          resultList
-        }
-
-        items(filteredRecipes, key = { it.id }) { recipe ->   //Darstellung einzelner Rezepte
+        items(recipes.value, key = { it.id }) { recipe ->   //Darstellung einzelner Rezepte
           OverviewItem(
             recipe = recipe,
             options = options,

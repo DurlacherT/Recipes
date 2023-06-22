@@ -92,18 +92,3 @@ fun TaskItem(
   }
 }
 
-private fun getDueDateAndTime(task: Recipe): String {
-  val stringBuilder = StringBuilder("")
-
- // if (task.hasDueDate()) {
- //   stringBuilder.append(task.Ingredients)
-//    stringBuilder.append(" ")
- // }
-
-  if (task.hasDueTime()) {
-    stringBuilder.append("at ")
-    stringBuilder.append(task.method)
-  }
-
-  return stringBuilder.toString()
-}

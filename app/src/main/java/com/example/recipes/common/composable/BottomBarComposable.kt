@@ -61,7 +61,7 @@ onMyRecipesClick : () -> Unit
             Icon(Icons.Filled.Add, "Add")
         }
         TextButton (
-            onClick = { onSearchClick() },
+            onClick = { onOverviewClick()  },
             modifier = modifier.padding(8.dp),
             border = null,
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
@@ -69,7 +69,7 @@ onMyRecipesClick : () -> Unit
             Icon(Icons.Filled.DensityMedium, "Add")
         }
         TextButton (
-            onClick = { onOverviewClick() },
+            onClick = { onSearchClick()},
             modifier = modifier.padding(8.dp),
             border = null,
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
