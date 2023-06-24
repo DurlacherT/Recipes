@@ -31,7 +31,7 @@ import java.lang.StringBuilder
 @Composable
 @ExperimentalMaterialApi
 fun OverviewItem(
-  recipe: Recipe,
+  recipe: Recipe?,
   options: List<String>,
   onCheckChange: () -> Unit,
   onRecipeClick: (String) -> Unit,
@@ -51,55 +51,66 @@ fun OverviewItem(
     ) {
 
 
-      Column(modifier = Modifier.weight(1f).clickable { onRecipeClick(recipe.id)  }) {
+      Column(modifier = Modifier.weight(1f).clickable {
+        if (recipe != null) {
+          onRecipeClick(recipe.id)
+        }
+      }) {
+        if(recipe != null ) {
 
-        Text(
-          text = recipe.name,
-          fontWeight = FontWeight.Bold,
-          style = MaterialTheme.typography.subtitle2,
-          fontSize = 20.sp
-        )
-        //Text(text = recipe.Ingredients, style = MaterialTheme.typography.subtitle2)
+          Text(
+            text = recipe.name,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.subtitle2,
+            fontSize = 20.sp
+          )
+          //Text(text = recipe.Ingredients, style = MaterialTheme.typography.subtitle2)
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-          AsyncImage(
-            model  = recipe.url,
-            contentDescription = "description",
-            modifier = Modifier.size(110.dp).padding(10.dp),
-            contentScale = Crop,
+          Row(verticalAlignment = Alignment.CenterVertically) {
+            AsyncImage(
+              model = recipe.url,
+              contentDescription = "description",
+              modifier = Modifier.size(110.dp).padding(10.dp),
+              contentScale = Crop,
 
+              )
+            Text(
+              text = recipe.description,
+              style = MaterialTheme.typography.body1,
+              fontSize = 20.sp
             )
-          Text(text = recipe.description, style = MaterialTheme.typography.body1, fontSize = 20.sp)
-          //Text(text = recipe.url, style = MaterialTheme.typography.subtitle2)
+            //Text(text = recipe.url, style = MaterialTheme.typography.subtitle2)
 
-          if (recipe.flag) {
-            Icon(
-              Icons.Filled.Favorite,
-              tint = DarkBlue,
-              contentDescription = "Favorite",
-              modifier = Modifier.size(110.dp).padding(10.dp)
-            )
-          } else {
-            Icon(
-              Icons.Outlined.Favorite,
-              tint = DarkBlue,
-              contentDescription = "Favorite",
-              modifier = Modifier.size(110.dp).padding(10.dp)
+            if (recipe.flag) {
+              Icon(
+                Icons.Filled.Favorite,
+                tint = DarkBlue,
+                contentDescription = "Favorite",
+                modifier = Modifier.size(110.dp).padding(10.dp)
+              )
+            } else {
+              Icon(
+                Icons.Outlined.Favorite,
+                tint = DarkBlue,
+                contentDescription = "Favorite",
+                modifier = Modifier.size(110.dp).padding(10.dp)
 
-            )
+              )
+            }
           }
         }
-
 
       }
 
 
-Icon(
+      if (recipe != null) {
+        Icon(
           if (recipe.flag) {Icons.Filled.Favorite} else {Icons.Outlined.FavoriteBorder},
           modifier = Modifier.clickable { onFlagTaskClick() },
           tint = DarkBlue,
           contentDescription = "Flag"
-        )
+          )
+      }
 
 
 

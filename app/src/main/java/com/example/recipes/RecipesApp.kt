@@ -28,7 +28,7 @@ import com.example.recipes.screens.detailrecipes.DetailScreen
 import com.example.recipes.screens.edit_recipe.EditRecipeScreen
 import com.example.recipes.screens.login.LoginScreen
 import com.example.recipes.screens.allrecipes.OverviewScreen
-import com.example.recipes.screens.allrecipes.OverviewScreenSearch
+import com.example.recipes.screens.allrecipessearch.OverviewScreenSearch
 import com.example.recipes.screens.settings.SettingsScreen
 import com.example.recipes.screens.sign_up.SignUpScreen
 import com.example.recipes.screens.splash.SplashScreen

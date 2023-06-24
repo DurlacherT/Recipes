@@ -1,14 +1,11 @@
-package com.example.recipes.screens.allrecipes
+package com.example.recipes.screens.allrecipessearch
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
@@ -22,16 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.recipes.EDIT_RECIPE_SCREEN
-import com.example.recipes.OVERVIEW_SCREEN
 import com.example.recipes.R
-import com.example.recipes.SETTINGS_SCREEN
 import com.example.recipes.R.drawable as AppIcon
 import com.example.recipes.R.string as AppText
 import com.example.recipes.common.composable.*
 import com.example.recipes.common.ext.smallSpacer
 import com.example.recipes.common.ext.toolbarActions
 import com.example.recipes.model.Recipe
+import com.example.recipes.screens.allrecipes.OverviewItem
+import com.example.recipes.screens.allrecipes.OverviewViewModel
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -90,18 +86,20 @@ fun OverviewScreenSearch(
           }
           resultList
         }
+if(filteredRecipes != null && !filteredRecipes.isEmpty()){
+  items(filteredRecipes, key = { it.id }) { recipe ->   //Darstellung einzelner Rezepte
+    OverviewItem(
+      recipe = recipe,
+      options = options,
+      onCheckChange = { viewModel.onTaskCheckChange(recipe) },
+      onActionClick = {},
+      onRecipeClick = { viewModel.onRecipeClick(openScreen, recipe) },
+      onFlagTaskClick = { viewModel.onFlagTaskClick(recipe) }
+    )
 
-        items(filteredRecipes, key = { it.id }) { recipe ->   //Darstellung einzelner Rezepte
-          OverviewItem(
-            recipe = recipe,
-            options = options,
-            onCheckChange = { viewModel.onTaskCheckChange(recipe) },
-            onActionClick = {},
-            onRecipeClick = { viewModel.onRecipeClick(openScreen, recipe) },
-            onFlagTaskClick = { viewModel.onFlagTaskClick(recipe) }
-          )
+  }
+}
 
-        }
       }
     }
 
