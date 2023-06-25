@@ -34,6 +34,7 @@ import com.example.recipes.R
 import com.example.recipes.common.composable.*
 import com.example.recipes.common.ext.idFromParameter
 import com.example.recipes.common.ext.smallSpacer
+import com.example.recipes.common.ext.spacer
 import com.example.recipes.common.ext.toolbarActions
 import com.example.recipes.core.Constants
 import com.example.recipes.model.storage.presentation.components.AddImageToDatabase
@@ -63,7 +64,7 @@ fun DetailScreen(
     }
 
 
-      Column(        modifier = Modifier
+      Column(        modifier = Modifier.padding(10.dp)
         .verticalScroll(rememberScrollState())
       ) {
         ActionToolbar(
@@ -81,8 +82,12 @@ fun DetailScreen(
           style = MaterialTheme.typography.subtitle2,
           fontSize = 20.sp
         )
+        Spacer(modifier = Modifier.smallSpacer())
+
         Text(text = recipe.description, style = MaterialTheme.typography.subtitle2)
-        Text(text = recipe.url, style = MaterialTheme.typography.subtitle2)
+
+        Spacer(modifier = Modifier.smallSpacer())
+
         Column {
           for (i in recipe.ingredients) {
             Text(text = i, fontSize = 15.sp)
@@ -97,26 +102,35 @@ fun DetailScreen(
           }
         val shareIntent = Intent.createChooser(sendIntent, null)
         val context = LocalContext.current
+        Column(
+          modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+          horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        Button(onClick = { context.startActivity(shareIntent) }) { Text("Share") }
-
-        if(recipe.url.isNotEmpty()){
-          AsyncImage(model = recipe.url, contentDescription = "description")
+          if (recipe.url.isNotEmpty()) {
+            AsyncImage(model = recipe.url, contentDescription = "description")
+          }
         }
 
-
-
-        AddImageToStorage(
-          addImageToDatabase = { downloadUrl ->
-            viewModel.addImageToDatabase(downloadUrl, recipeId)
-          }
-        )
-        Spacer(modifier = Modifier.smallSpacer())
+        Column(
+          modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+          horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+          AddImageToStorage(
+            addImageToDatabase = { downloadUrl ->
+              viewModel.addImageToDatabase(downloadUrl, recipeId)
+            }
+          )
+        }
+        Spacer(modifier = Modifier.spacer())
         SmileyRatingBarSample()
-        Spacer(modifier = Modifier.smallSpacer())
+        Spacer(modifier = Modifier.spacer())
 
+        Column(
+        ) {
+          Button(onClick = { context.startActivity(shareIntent) }) { Text("Share") }
 
-  ProfileContent(openGallery = { galleryLauncher.launch(Constants.ALL_IMAGES) })
+          ProfileContent(openGallery = { galleryLauncher.launch(Constants.ALL_IMAGES) })
 
   fun showSnackBar() =
     coroutineScope.launch {
@@ -130,13 +144,15 @@ fun DetailScreen(
       }
     }
 
-  AddImageToDatabase(
-    showSnackBar = { isImageAddedToDatabase ->
-      if (isImageAddedToDatabase) {
-        showSnackBar()
+          AddImageToDatabase(
+              showSnackBar = { isImageAddedToDatabase ->
+                if (isImageAddedToDatabase) {
+                  showSnackBar()
+                }
+              }
+            )
+        }
       }
-    }
-  )}
 }
 
 data class SmileyData(

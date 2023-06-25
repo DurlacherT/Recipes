@@ -57,14 +57,14 @@ fun EditRecipeScreen(
       Spacer(modifier = Modifier.spacer())
 
       val fieldModifier = Modifier.fieldModifier()
-      BasicField(AppText.name, recipe.recipe, viewModel::onTitleChange, fieldModifier)
+      BasicField(AppText.name, recipe.name, viewModel::onTitleChange, fieldModifier)
       BasicField(
         AppText.description,
         recipe.description,
         viewModel::onDescriptionChange,
         fieldModifier
       )
-      BasicField(AppText.ingredients, recipe.url, viewModel::onUrlChange, fieldModifier)
+      BasicField(AppText.ingredients, recipe.ingredients.toString(), viewModel::onUrlChange, fieldModifier)
     }
   }
 }

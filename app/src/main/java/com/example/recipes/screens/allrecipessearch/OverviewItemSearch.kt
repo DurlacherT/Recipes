@@ -36,7 +36,8 @@ fun OverviewItemSearch(
       modifier = Modifier.fillMaxWidth(),
     ) {
       Column(modifier = Modifier.weight(1f).clickable { onRecipeClick(recipe.id) }) {
-       Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+       Row(modifier = Modifier.fillMaxWidth(),
+         horizontalArrangement = Arrangement.SpaceBetween) {
           Text(
             text = recipe.name,
             fontWeight = FontWeight.Bold,

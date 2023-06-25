@@ -31,7 +31,7 @@ class EditRecipeViewModel @Inject constructor(
   }
 
   fun onTitleChange(newValue: String) {
-    recipe.value = recipe.value.copy(recipe = newValue)
+    recipe.value = recipe.value.copy(name = newValue)
   }
 
   fun onDescriptionChange(newValue: String) {
