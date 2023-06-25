@@ -27,7 +27,9 @@ import com.example.recipes.common.ext.smallSpacer
 import com.example.recipes.common.ext.toolbarActions
 import com.example.recipes.model.Recipe
 import com.example.recipes.screens.allrecipes.OverviewItem
+import com.example.recipes.screens.allrecipes.OverviewItemSearch
 import com.example.recipes.screens.allrecipes.OverviewViewModel
+import com.example.recipes.screens.allrecipes.OverviewViewModelSearch
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -36,17 +38,17 @@ import com.example.recipes.screens.allrecipes.OverviewViewModel
 fun OverviewScreenSearch(
   openScreen: (String) -> Unit,
   modifier: Modifier = Modifier,
-  viewModel: OverviewViewModel = hiltViewModel()
+  viewModel: OverviewViewModelSearch = hiltViewModel()
 ) {
   val textState = remember { mutableStateOf(TextFieldValue("")) }
 
   Scaffold(
 
-            bottomBar = {
+    bottomBar = {
       BottomBar(modifier,
-              onMyRecipesClick = { viewModel.onMyRecipesClick(openScreen) },
-              onAddClick = { viewModel.onAddClick(openScreen) },
-              onSettingsClick = { viewModel.onSettingsClick(openScreen) },
+        onMyRecipesClick = { viewModel.onMyRecipesClick(openScreen) },
+        onAddClick = { viewModel.onAddClick(openScreen) },
+        onSettingsClick = { viewModel.onSettingsClick(openScreen) },
         onSearchClick = { viewModel.onOverviewSearchClick(openScreen) },
 
         onOverviewClick = { viewModel.onOverviewClick(openScreen)}
@@ -79,6 +81,7 @@ fun OverviewScreenSearch(
           val resultList = mutableListOf<Recipe>()
           for (recipe in recipes.value) {
             if (recipe.name.lowercase()
+                .contains(searchedText.lowercase()) or recipe.ingredients.joinToString().lowercase()
                 .contains(searchedText.lowercase())
             ) {
               resultList.add(recipe)
@@ -86,19 +89,19 @@ fun OverviewScreenSearch(
           }
           resultList
         }
-if(filteredRecipes != null && !filteredRecipes.isEmpty()){
-  items(filteredRecipes, key = { it.id }) { recipe ->   //Darstellung einzelner Rezepte
-    OverviewItem(
-      recipe = recipe,
-      options = options,
-      onCheckChange = { viewModel.onTaskCheckChange(recipe) },
-      onActionClick = {},
-      onRecipeClick = { viewModel.onRecipeClick(openScreen, recipe) },
-      onFlagTaskClick = { viewModel.onFlagTaskClick(recipe) }
-    )
+        if(!filteredRecipes.isNullOrEmpty()){
+          items(filteredRecipes, key = { it.id }) { recipe ->   //Darstellung einzelner Rezepte
+            OverviewItemSearch(
+              recipe = recipe,
+              options = options,
+              onCheckChange = { viewModel.onTaskCheckChange(recipe) },
+              onActionClick = {},
+              onRecipeClick = { viewModel.onRecipeClick(openScreen, recipe) },
+              onFlagTaskClick = { viewModel.onFlagTaskClick(recipe) }
+            )
 
-  }
-}
+          }
+        }
 
       }
     }

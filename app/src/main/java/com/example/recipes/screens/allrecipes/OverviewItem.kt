@@ -81,22 +81,7 @@ fun OverviewItem(
             )
             //Text(text = recipe.url, style = MaterialTheme.typography.subtitle2)
 
-            if (recipe.flag) {
-              Icon(
-                Icons.Filled.Favorite,
-                tint = DarkBlue,
-                contentDescription = "Favorite",
-                modifier = Modifier.size(110.dp).padding(10.dp)
-              )
-            } else {
-              Icon(
-                Icons.Outlined.Favorite,
-                tint = DarkBlue,
-                contentDescription = "Favorite",
-                modifier = Modifier.size(110.dp).padding(10.dp)
 
-              )
-            }
           }
         }
 
