@@ -64,7 +64,7 @@ fun EditRecipeScreen(
         viewModel::onDescriptionChange,
         fieldModifier
       )
-      BasicField(AppText.ingredients, recipe.ingredients.toString(), viewModel::onUrlChange, fieldModifier)
+      BasicField(AppText.ingredients, recipe.title, viewModel::onUrlChange, fieldModifier)
     }
   }
 }

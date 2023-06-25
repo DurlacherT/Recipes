@@ -84,6 +84,10 @@ fun DetailScreen(
         )
         Spacer(modifier = Modifier.smallSpacer())
 
+        Text(text = recipe.title, style = MaterialTheme.typography.subtitle2)
+
+        Spacer(modifier = Modifier.smallSpacer())
+
         Text(text = recipe.description, style = MaterialTheme.typography.subtitle2)
 
         Spacer(modifier = Modifier.smallSpacer())
