@@ -10,43 +10,36 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.recipes.R
 import com.example.recipes.common.composable.*
+import com.example.recipes.common.ext.idFromParameter
+import com.example.recipes.common.ext.smallSpacer
+import com.example.recipes.common.ext.toolbarActions
 import com.example.recipes.core.Constants
 import com.example.recipes.model.storage.presentation.components.AddImageToDatabase
 import com.example.recipes.model.storage.presentation.components.AddImageToStorage
 import com.example.recipes.model.storage.presentation.components.ProfileContent
 import kotlinx.coroutines.launch
-import com.example.recipes.common.ext.idFromParameter
-import com.example.recipes.common.ext.smallSpacer
-import com.example.recipes.common.ext.toolbarActions
-
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalMaterialApi
@@ -64,89 +57,78 @@ fun DetailScreen(
 
   val scaffoldState = rememberScaffoldState()
   val coroutineScope = rememberCoroutineScope()
-  val galleryLauncher =  rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
-    imageUri?.let {
-      viewModel.addImageToStorage(imageUri)
+  val galleryLauncher =
+    rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
+      imageUri?.let { viewModel.addImageToStorage(imageUri) }
     }
-  }
 
 
-  Scaffold(
-    content = { padding ->
-      Column() {
-
-
-
-
-
+      Column(        modifier = Modifier
+        .verticalScroll(rememberScrollState())
+      ) {
         ActionToolbar(
           title = R.string.recipes,
           modifier = Modifier.toolbarActions(),
           endActionIcon = R.drawable.ic_settings,
-          endAction = {  }
+          endAction = {}
         )
 
         Spacer(modifier = Modifier.smallSpacer())
 
-
-        Text(text = recipeId, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
-        Text(text = recipe.name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
-        Text(text = recipe.description, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
-        Text(text = recipe.url, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
-
-        //Share data with other apps
-        val sendIntent: Intent = Intent().apply {
-          action = Intent.ACTION_SEND
-          putExtra(Intent.EXTRA_TEXT, recipe.name + "\n" + recipe.description)
-          type = "text/plain"
+        Text(
+          text = recipe.name,
+          fontWeight = FontWeight.Bold,
+          style = MaterialTheme.typography.subtitle2,
+          fontSize = 20.sp
+        )
+        Text(text = recipe.description, style = MaterialTheme.typography.subtitle2)
+        Text(text = recipe.url, style = MaterialTheme.typography.subtitle2)
+        Column {
+          for (i in recipe.ingredients) {
+            Text(text = i, fontSize = 15.sp)
+          }
         }
+        // Share data with other apps
+        val sendIntent: Intent =
+          Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, recipe.name + "\n" + recipe.description)
+            type = "text/plain"
+          }
         val shareIntent = Intent.createChooser(sendIntent, null)
         val context = LocalContext.current
 
-        Button(onClick = {
-          context.startActivity(shareIntent)
-        }){
-          Text("Share")
+        Button(onClick = { context.startActivity(shareIntent) }) { Text("Share") }
+
+        if(recipe.url.isNotEmpty()){
+          AsyncImage(model = recipe.url, contentDescription = "description")
         }
 
 
-        AsyncImage(
-          model  = recipe.url,
-          contentDescription = "description"
+
+        AddImageToStorage(
+          addImageToDatabase = { downloadUrl ->
+            viewModel.addImageToDatabase(downloadUrl, recipeId)
+          }
         )
-
+        Spacer(modifier = Modifier.smallSpacer())
         SmileyRatingBarSample()
+        Spacer(modifier = Modifier.smallSpacer())
 
+
+  ProfileContent(openGallery = { galleryLauncher.launch(Constants.ALL_IMAGES) })
+
+  fun showSnackBar() =
+    coroutineScope.launch {
+      val result =
+        scaffoldState.snackbarHostState.showSnackbar(
+          message = Constants.IMAGE_SUCCESSFULLY_ADDED_MESSAGE,
+          actionLabel = Constants.DISPLAY_IT_MESSAGE
+        )
+      if (result == SnackbarResult.ActionPerformed) {
+        viewModel.getImageFromDatabase()
       }
-    },
-    scaffoldState = scaffoldState
-  )
-  ProfileContent(
-    openGallery = {
-      galleryLauncher.launch(Constants.ALL_IMAGES)
     }
-  )
-  AddImageToStorage(
-    addImageToDatabase = { downloadUrl ->
-      viewModel.addImageToDatabase(downloadUrl, recipeId )
-    }
-  )
-
-
-
-
-
-
-
-  fun showSnackBar() = coroutineScope.launch {
-    val result = scaffoldState.snackbarHostState.showSnackbar(
-      message = Constants.IMAGE_SUCCESSFULLY_ADDED_MESSAGE,
-      actionLabel = Constants.DISPLAY_IT_MESSAGE
-    )
-    if (result == SnackbarResult.ActionPerformed) {
-      viewModel.getImageFromDatabase()
-    }
-  }
 
   AddImageToDatabase(
     showSnackBar = { isImageAddedToDatabase ->
@@ -154,17 +136,13 @@ fun DetailScreen(
         showSnackBar()
       }
     }
-  )
-
+  )}
 }
-
-
 
 data class SmileyData(
   val url: String,
   val label: String,
 )
-
 
 @Composable
 fun Smiley(
@@ -176,69 +154,76 @@ fun Smiley(
   animationDurationInMillis: Int = 300,
   onClick: () -> Unit,
 ) {
-  val padding: Dp by animateDpAsState(
-    targetValue = if (isSelected) {
+  val padding: Dp by
+  animateDpAsState(
+    targetValue =
+    if (isSelected) {
       0.dp
     } else {
       4.dp
     },
-    animationSpec = tween(
+    animationSpec =
+    tween(
       durationMillis = animationDurationInMillis,
       easing = LinearEasing,
     ),
   )
-  val size: Dp by animateDpAsState(
-    targetValue = if (isSelected) {
+  val size: Dp by
+  animateDpAsState(
+    targetValue =
+    if (isSelected) {
       52.dp
     } else {
       44.dp
     },
-    animationSpec = tween(
+    animationSpec =
+    tween(
       durationMillis = animationDurationInMillis,
       easing = LinearEasing,
     ),
   )
-  val saturation: Float by animateFloatAsState(
-    targetValue = if (isSelected) {
+  val saturation: Float by
+  animateFloatAsState(
+    targetValue =
+    if (isSelected) {
       1F
     } else {
       0F
     },
-    animationSpec = tween(
+    animationSpec =
+    tween(
       durationMillis = animationDurationInMillis,
       easing = LinearEasing,
     ),
   )
-  val matrix = ColorMatrix().apply {
-    setToSaturation(saturation)
-  }
+  val matrix = ColorMatrix().apply { setToSaturation(saturation) }
 
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = modifier.fillMaxWidth(),
   ) {
     AsyncImage(
-      model = ImageRequest.Builder(LocalContext.current)
+      model =
+      ImageRequest.Builder(LocalContext.current)
         .data(smileyData.url)
         .crossfade(true)
         .build(),
       contentDescription = "",
       contentScale = ContentScale.Crop,
-      modifier = Modifier
-        .padding(
-          top = padding,
-        )
+      modifier =
+      Modifier.padding(
+        top = padding,
+      )
         .size(size)
         .clip(CircleShape)
-        .clickable {
-          onClick()
-        },
+        .clickable { onClick() },
       colorFilter = ColorFilter.colorMatrix(matrix)
     )
     Spacer(modifier = Modifier.height(8.dp))
     Text(
       text = smileyData.label,
-      color = if (isSelected) {
+      color =
+      if (isSelected) {
         if (index < (count / 2)) {
           Color.Red
         } else if (index > (count / 2)) {
@@ -249,7 +234,8 @@ fun Smiley(
       } else {
         Color.DarkGray
       },
-      fontWeight = if (isSelected) {
+      fontWeight =
+      if (isSelected) {
         FontWeight.Bold
       } else {
         FontWeight.Normal
@@ -266,13 +252,11 @@ fun SmileyRatingBar(
   modifier: Modifier = Modifier,
 ) {
   Box(
-    modifier = modifier
-      .padding(8.dp)
-      .fillMaxWidth(),
+    modifier = modifier.padding(8.dp).fillMaxWidth(),
   ) {
     Divider(
-      modifier = Modifier
-        .fillMaxWidth()
+      modifier =
+      Modifier.fillMaxWidth()
         .padding(
           top = 24.dp,
           start = 44.dp,
@@ -283,9 +267,7 @@ fun SmileyRatingBar(
     Row(
       horizontalArrangement = Arrangement.SpaceBetween,
       verticalAlignment = Alignment.Top,
-      modifier = modifier
-        .height(80.dp)
-        .fillMaxWidth(),
+      modifier = modifier.height(80.dp).fillMaxWidth(),
     ) {
       data.mapIndexed { index, smileyData ->
         Smiley(
@@ -294,30 +276,25 @@ fun SmileyRatingBar(
           index = index,
           count = data.size,
           modifier = Modifier.weight(1F),
-          onClick = {
-            setRating(index)
-          },
+          onClick = { setRating(index) },
         )
       }
     }
   }
 }
 
-
-
 @Composable
 fun SmileyRatingBarSample() {
-  val data: List<SmileyData> = listOf(
-    SmileyData("https://cdn-icons-png.flaticon.com/512/742/742905.png", "Terrible"),
-    SmileyData("https://cdn-icons-png.flaticon.com/512/742/742761.png", "Bad"),
-    SmileyData("https://cdn-icons-png.flaticon.com/512/742/742774.png", "Okay"),
-    SmileyData("https://cdn-icons-png.flaticon.com/512/742/742940.png", "Good"),
-    SmileyData("https://cdn-icons-png.flaticon.com/512/742/742869.png", "Awesome"),
-  )
+  val data: List<SmileyData> =
+    listOf(
+      SmileyData("https://cdn-icons-png.flaticon.com/512/742/742905.png", "Terrible"),
+      SmileyData("https://cdn-icons-png.flaticon.com/512/742/742761.png", "Bad"),
+      SmileyData("https://cdn-icons-png.flaticon.com/512/742/742774.png", "Okay"),
+      SmileyData("https://cdn-icons-png.flaticon.com/512/742/742940.png", "Good"),
+      SmileyData("https://cdn-icons-png.flaticon.com/512/742/742869.png", "Awesome"),
+    )
 
-  val (rating, setRating) = remember {
-    mutableStateOf(data.size / 2)
-  }
+  val (rating, setRating) = remember { mutableStateOf(data.size / 2) }
   SmileyRatingBar(
     data = data,
     rating = rating,

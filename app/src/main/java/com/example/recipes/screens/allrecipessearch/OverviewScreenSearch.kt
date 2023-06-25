@@ -26,11 +26,6 @@ import com.example.recipes.common.composable.*
 import com.example.recipes.common.ext.smallSpacer
 import com.example.recipes.common.ext.toolbarActions
 import com.example.recipes.model.Recipe
-import com.example.recipes.screens.allrecipes.OverviewItem
-import com.example.recipes.screens.allrecipes.OverviewItemSearch
-import com.example.recipes.screens.allrecipes.OverviewViewModel
-import com.example.recipes.screens.allrecipes.OverviewViewModelSearch
-
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalMaterialApi
@@ -41,25 +36,21 @@ fun OverviewScreenSearch(
   viewModel: OverviewViewModelSearch = hiltViewModel()
 ) {
   val textState = remember { mutableStateOf(TextFieldValue("")) }
-
   Scaffold(
-
     bottomBar = {
-      BottomBar(modifier,
+      BottomBar(
+        modifier,
         onMyRecipesClick = { viewModel.onMyRecipesClick(openScreen) },
         onAddClick = { viewModel.onAddClick(openScreen) },
         onSettingsClick = { viewModel.onSettingsClick(openScreen) },
         onSearchClick = { viewModel.onOverviewSearchClick(openScreen) },
-
-        onOverviewClick = { viewModel.onOverviewClick(openScreen)}
+        onOverviewClick = { viewModel.onOverviewClick(openScreen) }
       )
     }
   ) {
-    val recipes = viewModel.recipes.collectAsStateWithLifecycle(emptyList())      // Recipes Liste von Objekten wird von Viewmodel übergeben
+    val recipes = viewModel.recipes.collectAsStateWithLifecycle(emptyList())
     val options by viewModel.options
     var filteredRecipes: List<Recipe>
-
-
     Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
       ActionToolbar(
         title = AppText.recipes,
@@ -67,30 +58,30 @@ fun OverviewScreenSearch(
         endActionIcon = AppIcon.ic_settings,
         endAction = { viewModel.onSettingsClick(openScreen) }
       )
-
       Spacer(modifier = Modifier.smallSpacer())
-
-      SearchView(textState)  //Aufruf des Suchfeldes
-
+      SearchView(textState)
       LazyColumn {
-
-        val searchedText = textState.value.text              //Rudimentäre Filterfunktion erzeuge Fehler, wenn man mehrere Buchstaben eingibt
-        filteredRecipes = if (searchedText.isEmpty()) {
-          recipes.value
-        } else {
-          val resultList = mutableListOf<Recipe>()
-          for (recipe in recipes.value) {
-            if (recipe.name.lowercase()
-                .contains(searchedText.lowercase()) or recipe.ingredients.joinToString().lowercase()
-                .contains(searchedText.lowercase())
-            ) {
-              resultList.add(recipe)
+        val searchedText = textState.value.text                                // Filter/Search function
+        filteredRecipes =
+          if (searchedText.isEmpty()) {
+            recipes.value
+          } else {
+            val resultList = mutableListOf<Recipe>()
+            for (recipe in recipes.value) {
+              if (
+                recipe.name.lowercase().contains(searchedText.lowercase()) or  // Search in recipe name and recipe ingredients
+                recipe.ingredients
+                  .joinToString()
+                  .lowercase()
+                  .contains(searchedText.lowercase())
+              ) {
+                resultList.add(recipe)
+              }
             }
+            resultList
           }
-          resultList
-        }
-        if(!filteredRecipes.isNullOrEmpty()){
-          items(filteredRecipes, key = { it.id }) { recipe ->   //Darstellung einzelner Rezepte
+        if (!filteredRecipes.isNullOrEmpty()) {
+          items(filteredRecipes, key = { it.id }) { recipe ->
             OverviewItemSearch(
               recipe = recipe,
               options = options,
@@ -99,60 +90,43 @@ fun OverviewScreenSearch(
               onRecipeClick = { viewModel.onRecipeClick(openScreen, recipe) },
               onFlagTaskClick = { viewModel.onFlagTaskClick(recipe) }
             )
-
           }
         }
-
       }
     }
-
-
   }
-
   LaunchedEffect(viewModel) { viewModel.loadTaskOptions() }
 }
 
-
 @Composable
-fun SearchView(state: MutableState<TextFieldValue>) {                  //Composable um Suchfeld darzustellen
+fun SearchView(state: MutableState<TextFieldValue>) {
   TextField(
     value = state.value,
-    onValueChange = { value ->
-      state.value = value
-    },
-    modifier = Modifier
-      .fillMaxWidth(),
+    onValueChange = { value -> state.value = value },
+    modifier = Modifier.fillMaxWidth(),
     textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
     leadingIcon = {
       Icon(
         Icons.Default.Search,
         contentDescription = "",
-        modifier = Modifier
-          .padding(15.dp)
-          .size(24.dp)
+        modifier = Modifier.padding(15.dp).size(24.dp)
       )
     },
     trailingIcon = {
       if (state.value != TextFieldValue("")) {
-        IconButton(
-          onClick = {
-            state.value =
-              TextFieldValue("") // Remove text from TextField when you press the 'X' icon
-          }
-        ) {
+        IconButton(onClick = { state.value = TextFieldValue("") }) {
           Icon(
             Icons.Default.Close,
             contentDescription = "",
-            modifier = Modifier
-              .padding(15.dp)
-              .size(24.dp)
+            modifier = Modifier.padding(15.dp).size(24.dp)
           )
         }
       }
     },
     singleLine = true,
-    shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
-    colors = TextFieldDefaults.textFieldColors(
+    shape = RectangleShape,
+    colors =
+    TextFieldDefaults.textFieldColors(
       textColor = Color.White,
       cursorColor = Color.White,
       leadingIconColor = Color.White,
