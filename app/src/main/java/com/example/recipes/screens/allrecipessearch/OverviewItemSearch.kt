@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,12 +56,29 @@ fun OverviewItemSearch(
             contentDescription = "Flag"
           )
         }
+        Spacer(modifier = Modifier.height(20.dp))
         Column {
-          for (i in recipe.ingredients) {
-            Text(text = i, fontSize = 15.sp)
+          Text(
+            text = "Ingredients:",
+            style = TextStyle(fontWeight = FontWeight.Bold),
+            fontSize = 15.sp
+          )
+          Spacer(modifier = Modifier.height(8.dp))
+          for (ingredient in recipe.ingredients) {
+            Row(modifier = Modifier.padding(start = 16.dp)) {
+              Text(
+                text = "•",
+                style = TextStyle(fontSize = 16.sp)
+              )
+              Spacer(modifier = Modifier.width(8.dp))
+              Text(
+                text = ingredient,
+                fontSize = 15.sp
+              )
+            }
           }
+        }
         }
       }
     }
   }
-}
