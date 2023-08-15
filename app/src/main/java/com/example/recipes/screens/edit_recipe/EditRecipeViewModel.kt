@@ -41,6 +41,10 @@ class EditRecipeViewModel @Inject constructor(
   fun onUrlChange(newValue: String) {
     recipe.value = recipe.value.copy(title = newValue)
   }
+  fun onCategoryChange(newValue: String) {
+    recipe.value = recipe.value.copy(category = newValue)
+  }
+
 
   fun onAddClick(openScreen: (String) -> Unit) = openScreen(EDIT_RECIPE_SCREEN)
 

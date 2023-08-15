@@ -13,6 +13,7 @@ data class Recipe(
   val url: String = "",
   var flag: Boolean = false,
   val completed: Boolean = false,
+  val category: String ="",
 
   val title: String = "",
   val priority: String = "",

@@ -57,7 +57,15 @@ fun OverviewItemSearch(
           )
         }
         Spacer(modifier = Modifier.height(20.dp))
+
+
         Column {
+          Text(
+            text = recipe.category,
+            fontWeight = FontWeight.Black,
+            style = MaterialTheme.typography.subtitle2,
+            fontSize = 20.sp
+          )
           Text(
             text = "Ingredients:",
             style = TextStyle(fontWeight = FontWeight.Bold),

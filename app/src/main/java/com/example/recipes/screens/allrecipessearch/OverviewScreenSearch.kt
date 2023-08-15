@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -48,9 +49,14 @@ fun OverviewScreenSearch(
       )
     }
   ) {
-    val recipes = viewModel.recipes.collectAsStateWithLifecycle(emptyList())
+    val recipes = viewModel.recipes.collectAsStateWithLifecycle(emptyList()) // wandelt den Flow von Rezepten in ein State-Objekt um
     val options by viewModel.options
     var filteredRecipes: List<Recipe>
+
+    var showBreakfast by remember { mutableStateOf(false) }
+    var showLunch by remember { mutableStateOf(false) }
+    var showDinner by remember { mutableStateOf(false) }
+
     Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
       ActionToolbar(
         title = AppText.recipes,
@@ -59,27 +65,48 @@ fun OverviewScreenSearch(
         endAction = { viewModel.onSettingsClick(openScreen) }
       )
       Spacer(modifier = Modifier.smallSpacer())
-      SearchView(textState)
+      SearchView(
+        state = textState,
+        showBreakfast = showBreakfast,
+        onBreakfastCheckedChange = { showBreakfast = it },
+        showLunch = showLunch,
+        onLunchCheckedChange = { showLunch = it },
+        showDinner = showDinner,
+        onDinnerCheckedChange = { showDinner = it }
+      )
+
+
       LazyColumn {
-        val searchedText = textState.value.text                                // Filter/Search function
+        val searchedText = textState.value.text.lowercase()
         filteredRecipes =
-          if (searchedText.isEmpty()) {
+          if (searchedText.isEmpty() && !(showBreakfast || showLunch || showDinner)) {
             recipes.value
           } else {
             val resultList = mutableListOf<Recipe>()
             for (recipe in recipes.value) {
-              if (
-                recipe.name.lowercase().contains(searchedText.lowercase()) or  // Search in recipe name and recipe ingredients
-                recipe.ingredients
-                  .joinToString()
-                  .lowercase()
-                  .contains(searchedText.lowercase())
+              if ((showBreakfast && recipe.category.equals("breakfast", ignoreCase = true)) ||
+                (showLunch && recipe.category.equals("lunch", ignoreCase = true)) ||
+                (showDinner && recipe.category.equals("dinner", ignoreCase = true)) ||
+                (searchedText.isNotEmpty() &&
+                        (recipe.name.lowercase().contains(searchedText.lowercase()) or  // Search in recipe name and recipe ingredients
+                                recipe.ingredients
+                                  .joinToString()
+                                  .lowercase()
+                                  .contains(searchedText.lowercase())))
+
               ) {
-                resultList.add(recipe)
+                val ingredientsMatched = recipe.ingredients.any { ingredient ->
+                  ingredient.lowercase().contains(searchedText)
+                }
+
+                if ((searchedText.isEmpty() || recipe.name.lowercase().contains(searchedText) || ingredientsMatched)) {
+                  resultList.add(recipe)
+                }
               }
             }
             resultList
           }
+
         if (!filteredRecipes.isNullOrEmpty()) {
           items(filteredRecipes, key = { it.id }) { recipe ->
             OverviewItemSearch(
@@ -99,7 +126,15 @@ fun OverviewScreenSearch(
 }
 
 @Composable
-fun SearchView(state: MutableState<TextFieldValue>) {
+fun SearchView(
+  state: MutableState<TextFieldValue>,
+  showBreakfast: Boolean,
+  onBreakfastCheckedChange: (Boolean) -> Unit,
+  showLunch: Boolean,
+  onLunchCheckedChange: (Boolean) -> Unit,
+  showDinner: Boolean,
+  onDinnerCheckedChange: (Boolean) -> Unit
+) {
   TextField(
     value = state.value,
     onValueChange = { value -> state.value = value },
@@ -125,8 +160,7 @@ fun SearchView(state: MutableState<TextFieldValue>) {
     },
     singleLine = true,
     shape = RectangleShape,
-    colors =
-    TextFieldDefaults.textFieldColors(
+    colors = TextFieldDefaults.textFieldColors(
       textColor = Color.White,
       cursorColor = Color.White,
       leadingIconColor = Color.White,
@@ -137,4 +171,32 @@ fun SearchView(state: MutableState<TextFieldValue>) {
       disabledIndicatorColor = Color.Transparent
     )
   )
+
+  Row(
+    modifier = Modifier.fillMaxWidth().padding(16.dp),
+    horizontalArrangement = Arrangement.SpaceBetween,
+    verticalAlignment = Alignment.CenterVertically
+  ) {
+
+    Checkbox(
+      checked = showBreakfast,
+      onCheckedChange = onBreakfastCheckedChange,
+      modifier = Modifier.padding(end = 4.dp),
+      colors = CheckboxDefaults.colors(checkedColor = Color.Blue, uncheckedColor = Color.Gray)
+    )
+    Text("Breakfast")
+    Checkbox(
+      checked = showLunch,
+      onCheckedChange = onLunchCheckedChange,
+      modifier = Modifier.padding(horizontal = 4.dp)
+    )
+    Text("Lunch")
+    Checkbox(
+      checked = showDinner,
+      onCheckedChange = onDinnerCheckedChange,
+      modifier = Modifier.padding(start = 4.dp)
+    )
+    Text("Dinner")
+  }
 }
+

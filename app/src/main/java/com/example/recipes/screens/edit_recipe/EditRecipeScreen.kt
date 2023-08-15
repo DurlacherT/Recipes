@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,6 +68,25 @@ fun EditRecipeScreen(
         fieldModifier
       )
       BasicField(AppText.ingredients, recipe.title, viewModel::onUrlChange, fieldModifier)
+      BasicField(AppText.category, recipe.category, viewModel::onCategoryChange, fieldModifier)
     }
   }
+/*  val categories = listOf("Frühstück", "Mittagessen", "Abendessen", "Dessert", "Snacks")
+  var selectedCategory by remember { mutableStateOf(recipe.category) }
+
+  DropdownMenu(
+    expanded = true,
+    onDismissRequest = { *//* Schließen des Menüs *//* }
+  ) {
+    categories.forEach { category ->
+      DropdownMenuItem(onClick = {
+        selectedCategory = category
+        viewModel.onCategoryChange(category) // Hier die ausgewählte Kategorie speichern
+      }) {
+        Text(text = category)
+      }
+    }
+  }
+
+  Text(text = "Ausgewählte Kategorie: $selectedCategory")*/
 }
