@@ -14,6 +14,7 @@ data class Recipe(
   var flag: Boolean = false,
   val completed: Boolean = false,
   val category: String ="",
+  val time: Float = 0f,
 
   val title: String = "",
   val priority: String = "",

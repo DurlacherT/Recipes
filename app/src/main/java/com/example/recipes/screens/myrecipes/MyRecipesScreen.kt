@@ -25,6 +25,7 @@ import com.example.recipes.common.composable.ActionToolbar
 import com.example.recipes.common.composable.BottomBar
 import com.example.recipes.common.ext.smallSpacer
 import com.example.recipes.common.ext.toolbarActions
+import com.example.recipes.screens.allrecipes.OverviewItem
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -76,14 +77,16 @@ fun RecipeScreen(
       Spacer(modifier = Modifier.smallSpacer())
 
       LazyColumn {
-        items(tasks.value, key = { it.id }) { taskItem ->
-          TaskItem(
-            recipe = taskItem,
+        items(tasks.value, key = { it.id }) { recipe ->
+          OverviewItem(
+            recipe = recipe,
             options = options,
-            onCheckChange = { viewModel.onTaskCheckChange(taskItem) },
-            onActionClick = { action ->
-              viewModel.onTaskActionClick(openScreen, taskItem, action)
-            }
+            onCheckChange = { viewModel.onTaskCheckChange(recipe) },
+            onRecipeClick = { viewModel.onRecipeClick(openScreen, recipe) },
+            onFlagTaskClick = { viewModel.onFlagTaskClick(recipe) },
+                    onActionClick = {}
+
+
           )
         }
       }

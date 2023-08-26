@@ -80,21 +80,23 @@ fun DetailScreen(
           text = recipe.name,
           fontWeight = FontWeight.Bold,
           style = MaterialTheme.typography.subtitle2,
-          fontSize = 20.sp
+          fontSize = 40.sp
         )
-        Spacer(modifier = Modifier.smallSpacer())
-
-        Text(text = recipe.title, style = MaterialTheme.typography.subtitle2)
 
         Spacer(modifier = Modifier.smallSpacer())
 
-        Text(text = recipe.description, style = MaterialTheme.typography.subtitle2)
+        Text(text = recipe.description, style = MaterialTheme.typography.subtitle2,
+          fontSize = 25.sp)
 
         Spacer(modifier = Modifier.smallSpacer())
 
         Column {
           for (i in recipe.ingredients) {
-            Text(text = i, fontSize = 15.sp)
+            Text(text = "\u2022 $i", fontSize = 25.sp)
+          }
+          Spacer(modifier = Modifier.smallSpacer())
+          for (i in recipe.method) {
+            Text(text = "\u2022 $i", fontSize = 25.sp)
           }
         }
         // Share data with other apps

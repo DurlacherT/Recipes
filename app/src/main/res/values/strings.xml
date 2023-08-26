@@ -9,6 +9,7 @@
     <string name="cancel">Cancel</string>
     <string name="try_again">Try again</string>
     <string name="ok">OK</string>
+    <string name="category">category</string>
 
     <!-- LoginScreen -->
     <string name="sign_in">Sign in</string>

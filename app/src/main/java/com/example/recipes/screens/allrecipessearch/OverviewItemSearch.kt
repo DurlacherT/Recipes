@@ -45,6 +45,12 @@ fun OverviewItemSearch(
             style = MaterialTheme.typography.subtitle2,
             fontSize = 20.sp
           )
+         Text(
+           text = recipe.time.toString(),
+           fontWeight = FontWeight.Bold,
+           style = MaterialTheme.typography.subtitle2,
+           fontSize = 20.sp
+         )
           Icon(
             if (recipe.flag) {
               Icons.Filled.Favorite

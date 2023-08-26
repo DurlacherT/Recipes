@@ -1,6 +1,7 @@
 package com.example.recipes.screens.myrecipes
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.recipes.DETAIL_SCREEN
 import com.example.recipes.EDIT_RECIPE_SCREEN
 import com.example.recipes.OVERVIEWSEARCH_SCREEN
 import com.example.recipes.OVERVIEW_SCREEN
@@ -44,6 +45,8 @@ class MyRecipesViewModel @Inject constructor(
 
   fun onMyRecipesClick(openScreen: (String) -> Unit) = openScreen(RECIPES_SCREEN)
 
+  fun onRecipeClick(openScreen: (String) -> Unit, recipe: Recipe) = openScreen("$DETAIL_SCREEN?$RECIPE_ID={${recipe.id}}")
+
 
   fun onTaskActionClick(openScreen: (String) -> Unit, task: Recipe, action: String) {
 
@@ -52,7 +55,7 @@ class MyRecipesViewModel @Inject constructor(
 
   }
 
-  private fun onFlagTaskClick(task: Recipe) {
+  fun onFlagTaskClick(task: Recipe) {
     launchCatching { storageService.update(task.copy(flag = !task.flag)) }
   }
 

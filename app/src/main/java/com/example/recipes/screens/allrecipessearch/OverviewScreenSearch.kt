@@ -1,6 +1,7 @@
 package com.example.recipes.screens.allrecipessearch
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -36,6 +37,9 @@ fun OverviewScreenSearch(
   modifier: Modifier = Modifier,
   viewModel: OverviewViewModelSearch = hiltViewModel()
 ) {
+  var sliderValues by remember {
+    mutableStateOf(0f..20f) // pass the initial values
+  }
   val textState = remember { mutableStateOf(TextFieldValue("")) }
   Scaffold(
     bottomBar = {
@@ -75,6 +79,24 @@ fun OverviewScreenSearch(
         onDinnerCheckedChange = { showDinner = it }
       )
 
+      RangeSlider(
+        modifier = modifier.padding(5.dp),
+        value = sliderValues,
+        onValueChange = { sliderValues_ ->
+          sliderValues = sliderValues_
+        },
+        valueRange = 0f..20f,
+        onValueChangeFinished = {
+          // this is called when the user completed selecting the value
+          Log.d(
+
+            "MainActivity",
+            "Start: ${sliderValues.start}, End: ${sliderValues.endInclusive}"
+          )
+        }
+      )
+
+      Text(text = "Start: ${sliderValues.start}, End: ${sliderValues.endInclusive}")
 
       LazyColumn {
         val searchedText = textState.value.text.lowercase()
@@ -84,7 +106,8 @@ fun OverviewScreenSearch(
           } else {
             val resultList = mutableListOf<Recipe>()
             for (recipe in recipes.value) {
-              if ((showBreakfast && recipe.category.equals("breakfast", ignoreCase = true)) ||
+              if (
+                (showBreakfast && recipe.category.equals("breakfast", ignoreCase = true)) ||
                 (showLunch && recipe.category.equals("lunch", ignoreCase = true)) ||
                 (showDinner && recipe.category.equals("dinner", ignoreCase = true)) ||
                 (searchedText.isNotEmpty() &&
@@ -93,13 +116,13 @@ fun OverviewScreenSearch(
                                   .joinToString()
                                   .lowercase()
                                   .contains(searchedText.lowercase())))
-
-              ) {
+                      ) {
                 val ingredientsMatched = recipe.ingredients.any { ingredient ->
                   ingredient.lowercase().contains(searchedText)
                 }
 
-                if ((searchedText.isEmpty() || recipe.name.lowercase().contains(searchedText) || ingredientsMatched)) {
+                if ((searchedText.isEmpty() || recipe.name.lowercase().contains(searchedText) || ingredientsMatched ) &&  (recipe.time in sliderValues.start..sliderValues.endInclusive)
+                          ) {
                   resultList.add(recipe)
                 }
               }
@@ -120,7 +143,13 @@ fun OverviewScreenSearch(
           }
         }
       }
+
+
+
+
     }
+
+
   }
   LaunchedEffect(viewModel) { viewModel.loadTaskOptions() }
 }
@@ -171,7 +200,6 @@ fun SearchView(
       disabledIndicatorColor = Color.Transparent
     )
   )
-
   Row(
     modifier = Modifier.fillMaxWidth().padding(16.dp),
     horizontalArrangement = Arrangement.SpaceBetween,
@@ -199,4 +227,5 @@ fun SearchView(
     Text("Dinner")
   }
 }
+
 
