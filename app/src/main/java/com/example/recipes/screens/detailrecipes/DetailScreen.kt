@@ -77,7 +77,7 @@ fun DetailScreen(
         Spacer(modifier = Modifier.smallSpacer())
 
         Text(
-          text = recipe.Name,
+          text = recipe.name,
           fontWeight = FontWeight.Bold,
           style = MaterialTheme.typography.subtitle2,
           fontSize = 40.sp
@@ -85,17 +85,17 @@ fun DetailScreen(
 
         Spacer(modifier = Modifier.smallSpacer())
 
-        Text(text = recipe.Description, style = MaterialTheme.typography.subtitle2,
+        Text(text = recipe.description, style = MaterialTheme.typography.subtitle2,
           fontSize = 25.sp)
 
         Spacer(modifier = Modifier.smallSpacer())
 
         Column {
-          for (i in recipe.Ingredients) {
+          for (i in recipe.ingredients) {
             Text(text = "\u2022 $i", fontSize = 25.sp)
           }
           Spacer(modifier = Modifier.smallSpacer())
-          for (i in recipe.Method) {
+          for (i in recipe.method) {
             Text(text = "\u2022 $i", fontSize = 25.sp)
           }
         }
@@ -103,7 +103,7 @@ fun DetailScreen(
         val sendIntent: Intent =
           Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, recipe.Name + "\n" + recipe.Description)
+            putExtra(Intent.EXTRA_TEXT, recipe.name + "\n" + recipe.description)
             type = "text/plain"
           }
         val shareIntent = Intent.createChooser(sendIntent, null)

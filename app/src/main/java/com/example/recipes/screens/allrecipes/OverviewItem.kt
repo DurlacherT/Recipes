@@ -49,7 +49,7 @@ fun OverviewItem(
         if(recipe != null ) {
 
           Text(
-            text = recipe.Name,
+            text = recipe.name,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.subtitle2,
             fontSize = 20.sp
@@ -65,7 +65,7 @@ fun OverviewItem(
 
               )
             Text(
-              text = recipe.Description,
+              text = recipe.description,
               style = MaterialTheme.typography.body1,
               fontSize = 20.sp
             )

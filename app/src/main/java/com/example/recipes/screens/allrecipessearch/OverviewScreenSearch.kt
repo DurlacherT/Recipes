@@ -118,17 +118,17 @@ fun OverviewScreenSearch(
                 (showLunch && recipe.category.equals("lunch", ignoreCase = true)) ||
                 (showDinner && recipe.category.equals("dinner", ignoreCase = true)) ||
                 (searchedText.isNotEmpty() &&
-                        (recipe.Name.lowercase().contains(searchedText.lowercase()) or  // Search in recipe name and recipe ingredients
-                                recipe.Ingredients
+                        (recipe.name.lowercase().contains(searchedText.lowercase()) or  // Search in recipe name and recipe ingredients
+                                recipe.ingredients
                                   .joinToString()
                                   .lowercase()
                                   .contains(searchedText.lowercase())))
                       ) {
-                val ingredientsMatched = recipe.Ingredients.any { ingredient ->
+                val ingredientsMatched = recipe.ingredients.any { ingredient ->
                   ingredient.lowercase().contains(searchedText)
                 }
 
-                if ((searchedText.isEmpty() || recipe.Name.lowercase().contains(searchedText) || ingredientsMatched ) &&  (recipe.time in sliderValues.start..sliderValues.endInclusive)
+                if ((searchedText.isEmpty() || recipe.name.lowercase().contains(searchedText) || ingredientsMatched ) &&  (recipe.time in sliderValues.start..sliderValues.endInclusive)
                           ) {
                   resultList.add(recipe)
                 }

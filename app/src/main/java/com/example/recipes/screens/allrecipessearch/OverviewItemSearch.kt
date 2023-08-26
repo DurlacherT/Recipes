@@ -40,7 +40,7 @@ fun OverviewItemSearch(
        Row(modifier = Modifier.fillMaxWidth(),
          horizontalArrangement = Arrangement.SpaceBetween) {
           Text(
-            text = recipe.Name,
+            text = recipe.name,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.subtitle2,
             fontSize = 20.sp
@@ -78,7 +78,7 @@ fun OverviewItemSearch(
             fontSize = 15.sp
           )
           Spacer(modifier = Modifier.height(8.dp))
-          for (ingredient in recipe.Ingredients) {
+          for (ingredient in recipe.ingredients) {
             Row(modifier = Modifier.padding(start = 16.dp)) {
               Text(
                 text = "•",
