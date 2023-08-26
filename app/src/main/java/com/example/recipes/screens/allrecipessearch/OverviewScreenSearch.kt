@@ -102,7 +102,13 @@ fun OverviewScreenSearch(
         val searchedText = textState.value.text.lowercase()
         filteredRecipes =
           if (searchedText.isEmpty() && !(showBreakfast || showLunch || showDinner)) {
-            recipes.value
+            val resultList = mutableListOf<Recipe>()
+            for (recipe in recipes.value) {
+              if ((recipe.time in sliderValues.start..sliderValues.endInclusive))           {
+                resultList.add(recipe)
+              }
+            }
+            resultList
           } else {
             val resultList = mutableListOf<Recipe>()
             for (recipe in recipes.value) {
