@@ -4,11 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,10 +57,10 @@ fun EditRecipeScreen(
       Spacer(modifier = Modifier.spacer())
 
       val fieldModifier = Modifier.fieldModifier()
-      BasicField(AppText.name, recipe.name, viewModel::onTitleChange, fieldModifier)
+      BasicField(AppText.name, recipe.Name, viewModel::onTitleChange, fieldModifier)
       BasicField(
         AppText.description,
-        recipe.description,
+        recipe.Description,
         viewModel::onDescriptionChange,
         fieldModifier
       )

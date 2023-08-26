@@ -5,28 +5,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale.Companion.Crop
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.recipes.R.drawable as AppIcon
-import com.example.recipes.common.composable.DropdownContextMenu
-import com.example.recipes.common.ext.contextMenu
-import com.example.recipes.common.ext.hasDueTime
 import com.example.recipes.common.ext.smallSpacer
 import com.example.recipes.model.Recipe
 import com.example.recipes.theme.DarkBlue
-import java.lang.StringBuilder
 
 @Composable
 @ExperimentalMaterialApi
@@ -59,7 +49,7 @@ fun OverviewItem(
         if(recipe != null ) {
 
           Text(
-            text = recipe.name,
+            text = recipe.Name,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.subtitle2,
             fontSize = 20.sp
@@ -75,7 +65,7 @@ fun OverviewItem(
 
               )
             Text(
-              text = recipe.description,
+              text = recipe.Description,
               style = MaterialTheme.typography.body1,
               fontSize = 20.sp
             )

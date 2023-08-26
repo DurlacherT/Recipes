@@ -9,7 +9,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.recipes.R.drawable as AppIcon
-import com.example.recipes.common.ext.contextMenu
 import com.example.recipes.model.Recipe
 import com.example.recipes.theme.DarkBlue
 
@@ -36,9 +35,9 @@ fun DetailItem(
       )*/
 
       Column(modifier = Modifier.weight(1f)) {
-        Text(text = recipe.name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
+        Text(text = recipe.Name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.subtitle2)
         //Text(text = recipe.Ingredients, style = MaterialTheme.typography.subtitle2)
-        Text(text = recipe.description, style = MaterialTheme.typography.body1)
+        Text(text = recipe.Description, style = MaterialTheme.typography.body1)
         //Text(text = recipe.url, style = MaterialTheme.typography.subtitle2)
       }
 

@@ -31,11 +31,11 @@ class EditRecipeViewModel @Inject constructor(
   }
 
   fun onTitleChange(newValue: String) {
-    recipe.value = recipe.value.copy(name = newValue)
+    recipe.value = recipe.value.copy(Name = newValue)
   }
 
   fun onDescriptionChange(newValue: String) {
-    recipe.value = recipe.value.copy(description = newValue)
+    recipe.value = recipe.value.copy(Description = newValue)
   }
 
   fun onUrlChange(newValue: String) {
@@ -75,7 +75,7 @@ class EditRecipeViewModel @Inject constructor(
   }
 
   fun onPriorityChange(newValue: String) {
-    recipe.value = recipe.value.copy(author = newValue)
+    recipe.value = recipe.value.copy(Author = newValue)
   }
 
   fun onDoneClick(popUpScreen: () -> Unit) {
